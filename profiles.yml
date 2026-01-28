@@ -11,7 +11,7 @@ dvh_fam_bb:
       dbname: dwhu1
       service: ccfdwhu1
       schema: "{{env_var('DBT_DB_SCHEMA')}}"
-      threads: 4
+      threads: 6
     R:
       type: oracle
       user: "{{env_var('DBT_ENV_SECRET_USER')}}"
@@ -22,17 +22,17 @@ dvh_fam_bb:
       dbname: dwhpr
       service: dwhr_ha
       schema: "{{env_var('DBT_DB_SCHEMA')}}"
-      threads: 4
+      threads: 6
     P:
       type: oracle
       user: "{{env_var('DBT_ENV_SECRET_USER')}}"
       pass: "{{env_var('DBT_ENV_SECRET_PASS')}}"
       protocol: tcp
-      host: dmv09-scan.adeo.no
+      host: dmv03-scan.adeo.no
       port: 1521
       dbname: dwhpr
       service: dwh_ha
       schema: "{{env_var('DBT_DB_SCHEMA')}}"
-      threads: 4
+      threads: 6
 config:
   send_anonymous_usage_stats: False

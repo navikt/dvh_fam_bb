@@ -1,5 +1,5 @@
-{% set start_date = 202101 %}
-{% set end_date = 202112 %}
+{% set start_date = 201601 %}
+{% set end_date = 201912 %}
 {% set periods = [] %}
 
 {{ config(
@@ -89,7 +89,7 @@
                     order by nb.periode desc fetch first 1 row only
             )
             else belop
-        end belop,
+        end belop,        
 
         SISTE_KOMPLETT_VEDTAK,
         SISTE_KOMPLETT_VEDTAKSTIDSPUNKT,
@@ -99,12 +99,21 @@
             when dim_mottaker.kjonn_nr = 1 then 'M'
             when dim_mottaker.kjonn_nr = 0 then 'K'
         end kjonn_mottaker,
+        dim_mottaker.gt_verdi as gt_verdi_mottaker,
+        dim_mottaker.getitype as gt_type_mottaker,
         dim_mottaker.bosted_kommune_nr AS bosted_kommune_nr_mottaker,
         dim_mottaker.fk_dim_land_statsborgerskap AS fk_dim_land_statsborgerskap_mottaker,
         dim_mottaker.fk_dim_geografi_bosted AS fk_dim_geografi_bosted_mottaker,
         FLOOR(MONTHS_BETWEEN(siste_dato_i_perioden, dim_mottaker.fodt_dato)/12) alder_mottaker,
+
         
         dim_skyldner.pk_dim_person AS fk_dim_person_skyldner,
+        case 
+            when dim_skyldner.kjonn_nr = 1 then 'M'
+            when dim_skyldner.kjonn_nr = 0 then 'K'
+        end kjonn_skyldner,
+        dim_skyldner.gt_verdi as gt_verdi_skyldner,
+        dim_skyldner.getitype as gt_type_skyldner,
         dim_skyldner.bosted_kommune_nr AS bosted_kommune_nr_skyldner,
         dim_skyldner.fk_dim_land_statsborgerskap AS fk_dim_land_statsborgerskap_skyldner,
         dim_skyldner.fk_dim_geografi_bosted AS fk_dim_geografi_bosted_skyldner,
@@ -180,7 +189,7 @@
           left join {{ source ('fam_bb', 'FAM_BB_BIDRAG_RESULTAT_MAPPING') }} resultat
           on periode.resultat = resultat.resultat_fra
         
-          left join left join {{ source ('dt_person_arena', 'ident_off_id_til_fk_person1') }}  ident_krav
+          left join {{ source ('dt_person_arena', 'ident_off_id_til_fk_person1') }}  ident_krav
           on fagsak.fnr_kravhaver = ident_krav.off_id
           and fagsak.fk_person1_kravhaver = -1
           and tid.siste_dato_i_perioden between ident_krav.gyldig_fra_dato and ident_krav.gyldig_til_dato
@@ -209,7 +218,7 @@
             COALESCE(f.NETTO_BARNETILLEGG_BM, LAST_VALUE(f.NETTO_BARNETILLEGG_BM IGNORE NULLS) OVER ( PARTITION BY f.fk_person1_kravhaver, f.saksnr, f.stonadstype ORDER BY f.vedtakstidspunkt ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )) AS NETTO_BARNETILLEGG_BM,
             COALESCE(f.SAMVAERSKLASSE, LAST_VALUE(f.SAMVAERSKLASSE IGNORE NULLS) OVER ( PARTITION BY f.fk_person1_kravhaver, f.saksnr, f.stonadstype ORDER BY f.vedtakstidspunkt ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )) AS SAMVAERSKLASSE,
             COALESCE(f.BPS_ANDEL_UNDERHOLDSKOSTNAD, LAST_VALUE(f.BPS_ANDEL_UNDERHOLDSKOSTNAD IGNORE NULLS) OVER ( PARTITION BY f.fk_person1_kravhaver, f.saksnr, f.stonadstype ORDER BY f.vedtakstidspunkt ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)) AS BPS_ANDEL_UNDERHOLDSKOSTNAD,
-            COALESCE(f.BPBOR_MED_ANDRE_VOKSNE, LAST_VALUE(f.BPBOR_MED_ANDRE_VOKSNE IGNORE NULLS) OVER (PARTITION BY f.fk_person1_kravhaver, f.saksnr, f.stonadstype ORDER BY f.vedtakstidspunkt ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)) AS BPBOR_MED_ANDRE_VOKSNE
+            COALESCE(f.BPBOR_MED_ANDRE_VOKSNE, LAST_VALUE(f.BPBOR_MED_ANDRE_VOKSNE IGNORE NULLS) OVER (PARTITION BY f.fk_person1_kravhaver, f.saksnr, f.stonadstype ORDER BY f.vedtakstidspunkt ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)) AS BPBOR_MED_ANDRE_VOKSNE,
             LAST_VALUE(CASE WHEN f.underholdskostnad IS NOT NULL THEN f.vedtaks_id END IGNORE NULLS) OVER (PARTITION BY f.fk_person1_kravhaver, f.saksnr, f.stonadstype ORDER BY f.vedtakstidspunkt ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS SISTE_KOMPLETT_VEDTAK,
             LAST_VALUE(CASE WHEN f.underholdskostnad IS NOT NULL THEN f.vedtakstidspunkt END IGNORE NULLS) OVER (PARTITION BY f.fk_person1_kravhaver, f.saksnr, f.stonadstype ORDER BY f.vedtakstidspunkt ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS SISTE_KOMPLETT_VEDTAKSTIDSPUNKT
 
@@ -258,7 +267,7 @@
                 vedtaks_id, behandlings_type, vedtakstidspunkt, saksnr, fk_person1_kravhaver, fk_person1_mottaker,
                 fk_person1_skyldner, pk_bb_bidrags_periode, periode_fra, periode_til, belop,netto_tilsynsutgift,faktisk_tilsynsutgift,
                 resultat,resultat_tekst, BIDRAGSEVNE, UNDERHOLDSKOSTNAD, SAMVAERSFRADRAG, NETTO_BARNETILLEGG_BP, NETTO_BARNETILLEGG_BM, 
-                SAMVAERSKLASSE, BPS_ANDEL_UNDERHOLDSKOSTNAD, BPBOR_MED_ANDRE_VOKSNE,valutakode,forste_vedtakstidspunkt,
+                SAMVAERSKLASSE, BPS_ANDEL_UNDERHOLDSKOSTNAD, BPBOR_MED_ANDRE_VOKSNE,valutakode,forste_vedtakstidspunkt,SISTE_KOMPLETT_VEDTAK, SISTE_KOMPLETT_VEDTAKSTIDSPUNKT,
                 min(periode_fra_opphor) periode_fra_opphor
           from siste_opphør
                                                                                         
@@ -268,7 +277,7 @@
                 fk_person1_skyldner, pk_bb_bidrags_periode, periode_fra, periode_til, belop,
                 resultat,resultat_tekst, BIDRAGSEVNE, UNDERHOLDSKOSTNAD, SAMVAERSFRADRAG, NETTO_BARNETILLEGG_BP, NETTO_BARNETILLEGG_BM, 
                 SAMVAERSKLASSE, BPS_ANDEL_UNDERHOLDSKOSTNAD, BPBOR_MED_ANDRE_VOKSNE,innkreving_flagg,stonadstype,
-                netto_tilsynsutgift,faktisk_tilsynsutgift,valutakode,forste_vedtakstidspunkt
+                netto_tilsynsutgift,faktisk_tilsynsutgift,valutakode,forste_vedtakstidspunkt,SISTE_KOMPLETT_VEDTAK, SISTE_KOMPLETT_VEDTAKSTIDSPUNKT
         ),
         
         inntekt AS (
@@ -387,6 +396,8 @@
             vedtak.INNKREVING_FLAGG,
             vedtak.fk_dim_tid_mnd,
             vedtak.siste_dato_i_perioden,
+            vedtak.SISTE_KOMPLETT_VEDTAK, 
+            vedtak.SISTE_KOMPLETT_VEDTAKSTIDSPUNKT,
             inntekts_typer.P_TYPE_INNTEKT_1,
             inntekts_typer.P_inntekt_1,
             inntekts_typer.P_TYPE_INNTEKT_2,
