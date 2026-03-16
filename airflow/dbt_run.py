@@ -7,28 +7,6 @@ import logging
 from typing import List
 from google.cloud import secretmanager
 import shlex
-import requests
-
-def publish_docs():
-  files = [
-      "manifest.json",
-      "catalog.json",
-      "index.html",
-  ]
-
-  multipart_form_data={}
-  for file_path in files:
-      file_name = os.path.basename(file_path)
-      with open(file_path, "rb") as file:
-          file_contents = file.read()
-          multipart_form_data[file_path] = (file_name, file_contents)
-
-  res = requests.put("https://dbt.intern.nav.no/docs/familie/dvh_fam_bb", files=multipart_form_data, allow_redirects=False)
-  res.raise_for_status()
-
-  if res.status_code not in ["200", "201"]:
-      raise requests.exceptions.HTTPError(f"uploading dbt docs, expected status code 200 or 201, got {res.status_code}")
-
 
 def set_secrets_as_envs():
   secrets = secretmanager.SecretManagerServiceClient()
@@ -94,8 +72,6 @@ if __name__ == "__main__":
 
     project_path = os.path.dirname(os.getcwd())
     logger.info(f"Prosjekt path er: {project_path}")
-
-    publish_docs()
 
     try:
         process_deps = subprocess.run(['dbt', 'deps'],
