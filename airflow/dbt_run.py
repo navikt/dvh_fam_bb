@@ -122,7 +122,7 @@ if __name__ == "__main__":
 
 
     run_dbt(["deps"])
-    run_dbt(["compile"])
+    #run_dbt(["compile"])
     run_dbt(command)
 
     filtered_logs = filter_logs(f"{project_path}/logs/dbt.log")
