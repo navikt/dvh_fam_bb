@@ -22,6 +22,13 @@ snapshot-paths: ["snapshots"]
 quoting:
   database: true
 
+vars: 
+  periode_fom: 202602
+  periode_tom: 202602
+  max_vedtaksdato: 20260228
+  periode_type: M
+  gyldig_flagg: 1
+
 clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
