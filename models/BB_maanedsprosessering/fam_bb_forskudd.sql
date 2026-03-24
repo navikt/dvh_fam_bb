@@ -207,12 +207,12 @@ periode_uten_opphort as (
           ,vedtak.forste_vedtakstidspunkt
     from opphor_hvis_finnes vedtak
    
-    left join {{ source ('dt_person', 'dim_person') }} dim_kravhaver
+    left join {{ source ('person', 'dim_person') }} dim_kravhaver
     on dim_kravhaver.fk_person1 = vedtak.fk_person1_kravhaver
     and vedtak.fk_person1_kravhaver != -1
     and vedtak.siste_dato_i_perioden between dim_kravhaver.gyldig_fra_dato and dim_kravhaver.gyldig_til_dato
    
-    left join {{ source ('dt_person', 'dim_person') }} dim_mottaker
+    left join {{ source ('person', 'dim_person') }} dim_mottaker
     on dim_mottaker.fk_person1 = vedtak.fk_person1_mottaker
     and vedtak.fk_person1_mottaker != -1
     and vedtak.siste_dato_i_perioden between dim_mottaker.gyldig_fra_dato and dim_mottaker.gyldig_til_dato

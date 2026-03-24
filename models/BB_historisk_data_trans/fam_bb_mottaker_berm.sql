@@ -30,8 +30,8 @@ select
     ,BARNETILBEL
     ,BARNETILFORS
     ,LASTET_DATO
-from {{ source ('fam_bb', 'STG_FAM_BB_MOTTAKER_BERM') }} 
-left outer join {{ source ('dt_person_arena', 'ident_off_id_til_fk_person1') }} b 
+from {{ source ('fam_bb', 'stg_fam_bb_mottaker_berm') }} 
+left outer join {{ source ('person', 'ident_off_id_til_fk_person1') }} b 
 on FNR=b.off_id
     and b.gyldig_fra_dato<=to_date(PERIODE|| '01','yyyymmdd')
     and b.gyldig_til_dato>=to_date(PERIODE|| '01','yyyymmdd')
@@ -72,7 +72,7 @@ select
     ,f.LASTET_DATO
     ,p.pk_dim_person fk_dim_person
 from final f
-left join {{ source ('dt_person_arena', 'dim_person') }} p
+left join {{ source ('person', 'dim_person') }} p
 on f.fk_person1 = p.fk_person1
     and p.gyldig_fra_dato<=to_date(f.PERIODE, 'yyyymm')
     and p.gyldig_til_dato>=to_date(f.PERIODE, 'yyyymm')

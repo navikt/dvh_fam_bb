@@ -66,10 +66,10 @@ fagsak as (
   on periode.periode_fra <= to_date(tid.aar_maaned||'01', 'yyyymmdd')
   and nvl(periode.periode_til, tid.siste_dato_i_perioden) >= tid.siste_dato_i_perioden
 
-  left join {{ source ('fam_bb', 'FAM_BB_BIDRAG_RESULTAT_MAPPING') }}  resultat
+  left join {{ source ('fam_bb', 'fam_bb_bidrag_resultat_mapping') }}  resultat
   on periode.resultat = resultat.resultat_fra
 
-  left join {{ source ('dt_person_arena', 'ident_off_id_til_fk_person1') }} ident_krav
+  left join {{ source ('person', 'ident_off_id_til_fk_person1') }} ident_krav
   on fagsak.fnr_kravhaver = ident_krav.off_id
   and fagsak.fk_person1_kravhaver = -1
   and tid.siste_dato_i_perioden between ident_krav.gyldig_fra_dato and ident_krav.gyldig_til_dato

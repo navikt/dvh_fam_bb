@@ -1,49 +1,16 @@
 version: 2
 
 sources:
-  - name: arena_stonad
-    description: ''
-    schema: dt_p
-    tables:
-      - name: dim_f_stonad_omraade
-        description: 'inneholder infromasjon om stonader, som bl.a stonad_kode, stonad_navn osv'
-      - name: dim_maalgruppe_type
-        description: 'inneholder infromasjon om målgrupper, som bl.a maalgruppe_kode, maalgruppe_navn osv'
-      - name: fak_stonad
-        descripion: 'inneholder informasjon om stonad til brukere. inneholder fk_person1, postert_belop, aar, inntekt osv'
-      - name: dim_vedtak_postering
-        description: ''
-      - name: dim_kjonn
-        description: 'inneholder informasjon om kjonn mann, kvinne, ukjent'
-      - name: dim_alder
-        description: 'inneholder informasjon om alderen til brukere'
-      - name: dim_geografi
-        description: 'inneholder geografiske informasjon, bla fylke_navn, kommune_nr osv '
-      - name: dim_person
-        description: 'inneholder informasjon om brukere, bla kjonn, fodeland, statsborgerskap osv'
-      - name: dim_vilkaar_type
-        description: ''
-      - name: fak_arena_sak_vedtak
-        description: ''
-      - name: fak_vedtak_fakta
-        description: ''
-      - name: fak_vilkaar_vurdering
-        description: ''
-
-  - name: dt_person_arena
+  - name: person
     schema: dt_person
     tables:
-      - name: dim_person_kontaktinfo
-        description: 'inneholder informasjon om brukere, bla navn, telefon_mobil, k67_flagg osv, '
-      - name: dvh_person_ident_off_id_ikke_skjermet
-        description: 'inneholder informasjon om personer som er ikke skjemet, bl.a fk_person1, off_id'
       - name: dim_person
+        description: 'inneholder informasjon om brukere, bla kjonn, fodeland, statsborgerskap osv'
       - name: ident_off_id_til_fk_person1
 
   - name: kode_verk
     schema: dt_kodeverk
     tables:
-     - name: dim_alder
      - name: dim_tid
 
   - name: fam_bb
@@ -58,13 +25,13 @@ sources:
       - name: fam_bb_forskudds_periode
       - name: fam_bb_bidrags_periode_ord
       - name: fam_bb_inntekts_liste_ord
-      - name: STG_FAM_BB_BARN_BIS
-      - name: STG_FAM_BB_MOTTAKER_BIS      
-      - name: STG_FAM_BB_PLIKTIGE_BIS
-      - name: STG_FAM_BB_BARN_BERM
-      - name: STG_FAM_BB_MOTTAKER_BERM      
-      - name: STG_FAM_BB_PLIKTIGE_BERM
-      - name: FAM_BB_BIDRAG_RESULTAT_MAPPING
+      - name: stg_fam_bb_barn_bis
+      - name: stg_fam_bb_mottaker_bis      
+      - name: stg_fam_bb_pliktige_bis
+      - name: stg_fam_bb_barn_berm
+      - name: stg_fam_bb_mottaker_berm      
+      - name: stg_fam_bb_pliktige_berm
+      - name: fam_bb_bidrag_resultat_mapping
 
 
 

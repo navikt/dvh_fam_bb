@@ -80,17 +80,17 @@ with periode_uten_opphort as (
         ,localtimestamp AS lastet_dato
   from {{ ref('periode_opphor_bidrag') }} vedtak
 
-  left join dt_person.dim_person dim_kravhaver
+  left join {{ source ('person', 'dim_person') }} dim_kravhaver
   on dim_kravhaver.fk_person1 = vedtak.fk_person1_kravhaver
   and vedtak.fk_person1_kravhaver != -1
   and vedtak.siste_dato_i_perioden between dim_kravhaver.gyldig_fra_dato and dim_kravhaver.gyldig_til_dato
  
-  left join dt_person.dim_person dim_mottaker
+  left join {{ source ('person', 'dim_person') }} dim_mottaker
   on dim_mottaker.fk_person1 = vedtak.fk_person1_mottaker
   and vedtak.fk_person1_mottaker != -1
   and vedtak.siste_dato_i_perioden between dim_mottaker.gyldig_fra_dato and dim_mottaker.gyldig_til_dato
   
-  left join dt_person.dim_person dim_skyldner
+  left join {{ source ('person', 'dim_person') }} dim_skyldner
   on dim_skyldner.fk_person1 = vedtak.fk_person1_skyldner
   and vedtak.fk_person1_skyldner != -1
   and vedtak.siste_dato_i_perioden between dim_skyldner.gyldig_fra_dato and dim_skyldner.gyldig_til_dato

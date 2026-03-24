@@ -44,8 +44,8 @@ select
     ,VEDTDATOFO
     ,VIRKDATOFO
     ,LASTET_DATO
-from {{ source ('fam_bb', 'STG_FAM_BB_BARN_BIS') }} 
-left outer join {{ source ('dt_person_arena', 'ident_off_id_til_fk_person1') }} b 
+from {{ source ('fam_bb', 'stg_fam_bb_barn_bis') }} 
+left outer join {{ source ('person', 'ident_off_id_til_fk_person1') }} b 
 on fnr=b.off_id
     and b.gyldig_fra_dato<=to_date(periode|| '01','yyyymmdd')
     and b.gyldig_til_dato>=to_date(periode|| '01','yyyymmdd')
@@ -58,7 +58,7 @@ mottaker_fk as (
     ,nvl(m.fk_person1, -1) fk_person1_mottaker
     ,m.skjermet_kode skjermet_kode_mottaker
     from pre_final pre
-    left outer join {{ source ('dt_person_arena', 'ident_off_id_til_fk_person1') }} m on
+    left outer join {{ source ('person', 'ident_off_id_til_fk_person1') }} m on
         BMFNR=m.off_id
         and m.gyldig_fra_dato<=to_date(periode|| '01','yyyymmdd')
         and m.gyldig_til_dato>=to_date(periode|| '01','yyyymmdd')
@@ -69,7 +69,7 @@ pliktig_fk as (
     ,nvl(p.fk_person1, -1) fk_person1_pliktig
     ,p.skjermet_kode skjermet_kode_pliktig
     from mottaker_fk m
-  left outer join {{ source ('dt_person_arena', 'ident_off_id_til_fk_person1') }} p 
+  left outer join {{ source ('person', 'ident_off_id_til_fk_person1') }} p 
   on BPFNR=p.off_id
     and p.gyldig_fra_dato<=to_date(periode|| '01','yyyymmdd')
     and p.gyldig_til_dato>=to_date(periode|| '01','yyyymmdd')
@@ -136,21 +136,21 @@ select
    ,m.pk_dim_person fk_dim_person_mottaker
    ,p.pk_dim_person fk_dim_person_pliktig
 from pliktig_fk f
-left join {{ source ('dt_person_arena', 'dim_person') }} b
+left join {{ source ('person', 'dim_person') }} b
 on f.fk_person1_barn = b.fk_person1
     and b.gyldig_fra_dato<=to_date(f.periode, 'yyyymm')
     and b.gyldig_til_dato>=to_date(f.periode, 'yyyymm')
     and b.K67_FLAGG=0
     and f.fk_person1_barn <> -1
 
-left join {{ source ('dt_person_arena', 'dim_person') }} m
+left join {{ source ('person', 'dim_person') }} m
 on f.fk_person1_mottaker = m.fk_person1
     and m.gyldig_fra_dato<=to_date(f.periode, 'yyyymm')
     and m.gyldig_til_dato>=to_date(f.periode, 'yyyymm')
     and m.K67_FLAGG=0
     and f.fk_person1_mottaker <> -1
     
-left join {{ source ('dt_person_arena', 'dim_person') }} p
+left join {{ source ('person', 'dim_person') }} p
 on f.fk_person1_pliktig = p.fk_person1
     and p.gyldig_fra_dato<=to_date(f.periode, 'yyyymm')
     and p.gyldig_til_dato>=to_date(f.periode, 'yyyymm')
