@@ -44,13 +44,13 @@ final as (
         nvl(ident_mottaker.fk_person1, -1) as fk_person1_mottaker,
         p.kafka_offset
     from pre_final p
-    left join dt_person.ident_off_id_til_fk_person1 ident_krav
+    left join {{ source ('person', 'ident_off_id_til_fk_person1') }} ident_krav
       on p.fnr_kravhaver = ident_krav.off_id
      and p.vedtakstidspunkt between ident_krav.gyldig_fra_dato and ident_krav.gyldig_til_dato
-    left join dt_person.ident_off_id_til_fk_person1 ident_mottaker
+    left join {{ source ('person', 'ident_off_id_til_fk_person1') }} ident_mottaker
       on p.fnr_mottaker = ident_mottaker.off_id
      and p.vedtakstidspunkt between ident_mottaker.gyldig_fra_dato and ident_mottaker.gyldig_til_dato
-    left join dt_person.ident_off_id_til_fk_person1 ident_skyldner
+    left join {{ source ('person', 'ident_off_id_til_fk_person1') }} ident_skyldner
       on p.fnr_skyldner = ident_skyldner.off_id
      and p.vedtakstidspunkt between ident_skyldner.gyldig_fra_dato and ident_skyldner.gyldig_til_dato
 )

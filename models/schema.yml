@@ -25,6 +25,7 @@ sources:
       - name: fam_bb_forskudds_periode
       - name: fam_bb_bidrags_periode_ord
       - name: fam_bb_inntekts_liste_ord
+      - name: fam_bb_inntekt
       - name: stg_fam_bb_barn_bis
       - name: stg_fam_bb_mottaker_bis      
       - name: stg_fam_bb_pliktige_bis

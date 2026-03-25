@@ -39,9 +39,9 @@ fagsak as (
                            order by fagsak.vedtakstidspunkt desc, fagsak.vedtaks_id desc
                           ) nr,
         min(fagsak.vedtakstidspunkt) over (partition by tid.aar_maaned, fagsak.fk_person1_kravhaver ,fagsak.saksnr) forste_vedtakstidspunkt           
-    from {{ source ('fam_bb_forskudd_maaned', 'fam_bb_fagsak') }} fagsak
+    from {{ source ('fam_bb', 'fam_bb_fagsak') }} fagsak
  
-    join {{ source ('fam_bb_forskudd_maaned', 'fam_bb_forskudds_periode') }} periode
+    join {{ source ('fam_bb', 'fam_bb_forskudds_periode') }} periode
     on fagsak.pk_bb_fagsak = periode.fk_bb_fagsak
     and periode.belop > 0
  
@@ -62,9 +62,9 @@ siste as (
 opphor_fra as (
     select fagsak.fk_person1_kravhaver, fagsak.saksnr, fagsak.vedtakstidspunkt
           ,min(periode.periode_fra) periode_fra_opphor
-    from {{ source ('fam_bb_forskudd_maaned', 'fam_bb_fagsak') }} fagsak 
+    from {{ source ('fam_bb', 'fam_bb_fagsak') }} fagsak 
 
-    join {{ source ('fam_bb_forskudd_maaned', 'fam_bb_forskudds_periode') }} periode
+    join {{ source ('fam_bb', 'fam_bb_forskudds_periode') }} periode
     on fagsak.pk_bb_fagsak = periode.fk_bb_fagsak
     and periode.belop is null
 
@@ -109,7 +109,7 @@ inntekt as (
           ,inntekt.fk_bb_forskudds_periode
           ,inntekt.type_inntekt, inntekt.belop as belop_inntekt
     from fagsak
-    join {{ source ('fam_bb_forskudd_maaned', 'fam_bb_inntekt') }} inntekt
+    join {{ source ('fam_bb', 'fam_bb_inntekt') }} inntekt
     on fagsak.pk_bb_forskudds_periode = inntekt.fk_bb_forskudds_periode
 ),
 --Hent ut siste versjon av inntektsliste
