@@ -235,11 +235,11 @@ pre_final as (
     ,t2.inntekt_mottaker_antall_typer
     ,t2.inntekt_kravhaver_totalt
     ,t2.inntekt_kravhaver_antall_typer
-    ,{{ ephemeral_star(model_name='dim_person_felter', relation_alias='t3', prefix='SKYLDNER_', except=["fk_person1","gyldig_fra_dato", "gyldig_til_dato" ]) }}
+    ,{{ dbt_dvh_macros.BREDAGG__ephemeral_star(model_name='dim_person_felter', relation_alias='t3', prefix='SKYLDNER_', except=["fk_person1","gyldig_fra_dato", "gyldig_til_dato" ]) }}
     ,trunc(months_between(to_date(aar_maaned, 'yyyymm'), to_date(t6.fodt_aar_maaned, 'yyyymm')) / 12) AS skyldner_alder    
-    ,{{ ephemeral_star(model_name='dim_person_felter', relation_alias='t4', prefix='MOTTAKER_', except=["fk_person1","gyldig_fra_dato", "gyldig_til_dato" ]) }}
+    ,{{ dbt_dvh_macros.BREDAGG__ephemeral_star(model_name='dim_person_felter', relation_alias='t4', prefix='MOTTAKER_', except=["fk_person1","gyldig_fra_dato", "gyldig_til_dato" ]) }}
     ,trunc(months_between(to_date(aar_maaned, 'yyyymm'), to_date(t7.fodt_aar_maaned, 'yyyymm')) / 12) AS mottaker_alder    
-    ,{{ ephemeral_star(model_name='dim_person_felter', relation_alias='t5', prefix='KRAVHAVER_', except=["fk_person1","gyldig_fra_dato", "gyldig_til_dato" ]) }}
+    ,{{ dbt_dvh_macros.BREDAGG__ephemeral_star(model_name='dim_person_felter', relation_alias='t5', prefix='KRAVHAVER_', except=["fk_person1","gyldig_fra_dato", "gyldig_til_dato" ]) }}
     ,trunc(months_between(to_date(aar_maaned, 'yyyymm'), to_date(t8.fodt_aar_maaned, 'yyyymm')) / 12) AS kravhaver_alder
     from sammenstilling t1
     left join inntekt t2
@@ -273,9 +273,9 @@ Fødselsdato (yyyymm) mot vedtakstidspunktet (yyyymm). Alder beregnes som antall
 
 final as (
     select t1.*
-    ,{{ ephemeral_star(model_name='dim_alder', relation_alias='t2', prefix='SKYLDNER_', except=["alder"]) }}
-    ,{{ ephemeral_star(model_name='dim_alder', relation_alias='t3', prefix='MOTTAKER_', except=["alder"]) }}
-    ,{{ ephemeral_star(model_name='dim_alder', relation_alias='t4', prefix='KRAVHAVER_', except=["alder"]) }}    
+    ,{{ dbt_dvh_macros.BREDAGG__ephemeral_star(model_name='dim_alder', relation_alias='t2', prefix='SKYLDNER_', except=["alder"]) }}
+    ,{{ dbt_dvh_macros.BREDAGG__ephemeral_star(model_name='dim_alder', relation_alias='t3', prefix='MOTTAKER_', except=["alder"]) }}
+    ,{{ dbt_dvh_macros.BREDAGG__ephemeral_star(model_name='dim_alder', relation_alias='t4', prefix='KRAVHAVER_', except=["alder"]) }}    
     from pre_final t1
     left join  {{ ref('dim_alder') }} t2
     on t1.skyldner_alder = t2.alder

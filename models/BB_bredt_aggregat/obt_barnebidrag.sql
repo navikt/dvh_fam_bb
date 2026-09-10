@@ -1,7 +1,9 @@
 {{
     config(
         materialized='table',
-        post_hook="{{ sync_multi_source_comments([ ['kode_verk', 'dim_tid'], ['kode_verk', 'dim_geografi']]) }}"
+        post_hook="{{ dbt_dvh_macros.BREDAGG__sync_multi_source_comments([ ['kode_verk', 'dim_tid'], 
+        ['kode_verk', 'dim_geografi'],['kode_verk', 'dim_alder'],
+        ['kode_verk', 'dim_kjonn'] ]) }}"
     )
 }}
 
@@ -22,7 +24,7 @@ with saer as (
 final as ( 
     select 
     'Barnebidrag' as kilde_omraade,
-    {{ ephemeral_star(model_name='dim_bredt_aggregat_mnd', relation_alias='t1') }},
+    {{ dbt_dvh_macros.BREDAGG__ephemeral_star(model_name='dim_bredt_aggregat_mnd', relation_alias='t1') }},
     t2.saerbidrag_antall_mottakere
     from saer t2
     right join {{ ref('dim_bredt_aggregat_mnd') }} t1
