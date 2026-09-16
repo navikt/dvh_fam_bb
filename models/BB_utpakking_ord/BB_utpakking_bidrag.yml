@@ -1,0 +1,171 @@
+version: 2
+
+models:
+
+  - name: fam_bb_fagsak_ord
+    description: Tabell for bidragsvedtak.
+
+    tags:
+      - bidrag
+      - marts
+      - vedtak
+    
+    meta:
+      owner: Team Familie
+      business_owner: Statistikkseksjonen
+      contains_pii: false
+    
+    columns:
+      - name: pk_bb_fagsak
+        description: '#NAVN PK_BB_FAGSAK #INNHOLD Unik nøkkel for tabellen.'
+        tests:
+          - not_null
+          - unique
+      - name: vedtaks_id
+        description: '#NAVN VEDTAKS_ID #INNHOLD Versjon av aktuell saksnummer'
+      - name: kafka_offset
+        tests:
+          - not_null
+          - unique
+        description: '#NAVN KAFKA_OFFSET #INNHOLD Kafka-kø sekvensnummer.'
+      - name: vedtakstidspunkt
+        description: '#NAVN VEDTAKSTIDSPUNKT #INNHOLD Tidspunkt til når vedtaket ble fattet'
+      - name: behandlings_type
+        description: '#NAVN BEHANDLINGS_TYPE #INNHOLD Grunnlag for å behandle saken.'
+      - name: saksnr
+        description: '#NAVN SAKSNR #INNHOLD Referansenummer for en sak hos NAV og den hører til kravhaver + mottakeren'
+      - name: innkreving_flagg
+        description: '#NAVN INNKREVING_FLAGG #INNHOLD Binær verdi som sier om det er innkreving eller ikke'
+      - name: fk_person1_kravhaver
+        description: '#NAVN FK_PERSON1_KRAVHAVER #INNHOLD Syntetisk identifikator for kravhaver (barn). Mapping til fnr'
+        tests:
+          - not_null
+      - name: fk_person1_mottaker
+        description: '#NAVN FK_PERSON1_MOTTAKER #INNHOLD Syntetisk identifikator for mottaker. Mapping til fnr'
+        tests:
+          - not_null
+      - name: fk_person1_skyldner
+        description: '#NAVN FK_PERSON1_SKYLDNER #INNHOLD Syntetisk identifikator for skyldner. Mapping til fnr'
+        tests:
+          - not_null
+      - name: historisk_vedtak
+        description: '#NAVN HISTORISK_VEDTAK #INNHOLD Binær verdi som sier om vedtaket er fra Bysis eller fattet i det nye vedtaksløsning. Hvis 1 kommer vedtaket fra Bysis'
+      - name: stonadstype
+        description: '#NAVN STONADSTYPE #INNHOLD Stønadstypen innen bidrag. Det er enten "BIDRAG", "BIDRAG18AAR" eller "OPPFOSTRINGSBIDRAG"'
+      - name: fk_bb_meta_data
+        description: '#NAVN FK_BB_META_DATA #INNHOLD Fremmednøkkel til fam_bb_meta_data hvor rådataene ligger.'
+        tests:
+          - not_null
+          - unique
+      - name: lastet_dato
+        description: '#NAVN LASTET_DATO #INNHOLD Data lastet inn i tabellen i datavarehuset.'
+        tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: 'laste_dato > vedtakstidspunkt'
+
+  - name: fam_bb_bidrag_periode_ord
+    description: Tabell for bidragsperioder.
+
+    tags:
+      - bidrag
+      - marts
+      - utbetalings_perioder
+    
+    meta:
+      owner: Team Familie
+      business_owner: Statistikkseksjonen
+      contains_pii: false
+    
+    columns:
+      - name: pk_bb_bidrag_periode
+        description: '#NAVN PK_BB_BIDRAG_PERIODE #INNHOLD Unik nøkkel for tabellen.'
+        tests:
+          - not_null
+          - unique
+      - name: periode_fra
+        description: '#NAVN PERIODE_FRA #INNHOLD Datoen bidragsperiode gjelder fra.'
+        tests:
+          - not_null
+      - name: periode_til
+        description: '#NAVN PERIODE_TIL #INNHOLD Datoen bidragsperiode gjelder til. Hvis null, betyr det at vedtaket er fortsatt gyldig.'
+      - name: belop
+        description: '#NAVN BELOP #INNHOLD Bidragsbeløp som er utbetalt til mottakeren for den aktuelle kravhaveren.'
+      - name: resultat
+        description: '#NAVN RESULTAT #INNHOLD Resultatet av saksvurderingen for den aktuelle perioden.'
+      - name: underholdskostnad
+        description: '#NAVN UNDERHOLDSKOSTNAD #INNHOLD Den beregnede kostnaden for å forsørge et barn'
+      - name: samvaersklasse
+        description: '#NAVN SAMVAERSKLASSE #INNHOLD En klassekode som angir type avtale mellom mottaker og skyldner vedrørende fordelingen av samværstid med kravhaveren'
+      - name: netto_tilsynsutgift
+        descripion: '#NAVN NETTO_TILSYNSUTGIFT #INNHOLD Mottakerens utgifter til tilsyn av barn'
+      - name: netto_barnetillegg_bp
+        description: '#NAVN NETTO_BARNETILLEGG_BP #INNHOLD ' 
+      - name: netto_barnetillegg_bm
+        description: '#NAVN NETTO_BARNETILLEGG_BM #INNHOLD '
+      - name: faktisk_tilsynsutgift
+        description: '#NAVN FAKTISK_TILSYNSUTGIFT #INNHOLD Faktisk utgifter mottakeren til tilsyn av barn'
+      - name: bps_andel_underholdskostnad
+        description: '#NAVN BPS_ANDEL_UNDERHOLDSKOSTNAD #INNHOLD Skyldnerens andel av underholdskostnadene'
+      - name: bpbor_med_andre_voksne
+        description: '#NAVN BPBOR_MED_ANDRE_VOKSNE #INNHOLD Binær verdi som sier om skyldneren bor med en annen voksen eller ei'
+      - name: bidragsevne
+        description: '#NAVN BIDRAGSEVNE #INNHOLD Skyldnerens økonomiske evne til å betale barnebidrag'
+      - name: valutakode
+        description: '#NAVN VALUTAKODE #INNHOLD Valutakoden barnbidrag er betalt i'
+      - name: kafka_offset
+        description: '#NAVN KAFKA_OFFSET #INNHOLD Kafka-kø sekvensnummer.'
+        tests:
+          - not_null
+          - unique
+      - name: lastet_dato
+        description: '#NAVN LASTET_DATO #INNHOLD Data lastet inn i tabellen i datavarehuset.'
+      - name: fk_bb_fagsak
+        description: '#NAVN FK_BB_FAGSAK #INNHOLD Syntetisk fremmednøkkel mot bidragstabellen for fagsak.'
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('fam_bb_fagsak_ord')
+                field: PK_BB_FAGSAK
+
+
+  - name: fam_bb_inntekt_ord
+    description: Tabell med bidragsmottakerens inntekt.
+
+    tags:
+      - bidrag
+      - marts
+      - mottakererens inntekt
+    
+    meta:
+      owner: Team Familie
+      business_owner: Statistikkseksjonen
+      contains_pii: false
+    
+    columns:
+      - name: pk_bb_inntekt
+        description: '#NAVN PK_BB_INNTEKT #INNHOLD Unik nøkkel for tabellen.'
+        tests:
+          - not_null
+          - unique
+      - name: type_inntekt
+        description: '#NAVN TYPE_INNTEKT #INNHOLD Mottakerens inntektstype.'
+        tests:
+          - not_null
+      - name: inntekt
+        description: '#NAVN INNETKT #INNHOLD Inntekt knyttet til den aktuelle arbeidstypen.'
+      - name: kafka_offset
+        description: '#NAVN KAFKA_OFFSET #INNHOLD Kafka-kø sekvensnummer.'
+      - name: lastet_dato
+        description: '#NAVN LASTET_DATO #INNHOLD Data lastet inn i tabellen i datavarehuset.'
+      - name: fk_bb_bidrag_periode
+        description: '#NAVN FK_BB_BIDRAG_PERIODE #INNHOLD Fremmednøkkel til fam_bb_bidrag_periode tabellen.'
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('fam_bb_bidrag_periode_ord')
+                field: PK_BB_bidrag_PERIODE
+
+
