@@ -33,7 +33,10 @@ pre_final as (
 
 final as (
     select 
-        STANDARD_HASH(p.vedtaks_id || '|' || p.fk_person1_kravhaver, 'MD5') as pk_bb_fagsak
+        STANDARD_HASH(vedtaks_id || '|' || fk_person1_kravhaver, 'MD5') as pk_bb_fagsak
+        ,fk_bb_meta_data
+        ,fk_person1_kravhaver
+        ,fk_person1_mottaker
         ,vedtaks_id
         ,behandlings_type
         ,saksnr
@@ -42,11 +45,8 @@ final as (
             when historisk_vedtak = 'true' then 1
             else 0
         end as historisk_vedtak
-        ,fk_bb_meta_data
-        ,fk_person1_kravhaver
-        ,fk_person1_mottaker
         ,kafka_offset
-    from pre_final p
+    from pre_final
 )
 
 select 

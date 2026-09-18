@@ -36,6 +36,10 @@ final as (
 
 select 
     STANDARD_HASH(vedtaks_id || '|' || fk_person1_kravhaver || '|' || stonadstype, 'MD5') as pk_bb_fagsak
+    ,fk_bb_meta_data
+    ,fk_person1_skyldner
+    ,fk_person1_kravhaver
+    ,fk_person1_mottaker    
     ,vedtaks_id
     ,behandlings_type
     ,saksnr
@@ -49,10 +53,6 @@ select
         else 0
     end as historisk_vedtak
     ,stonadstype
-    ,fk_bb_meta_data
-    ,fk_person1_skyldner
-    ,fk_person1_kravhaver
-    ,fk_person1_mottaker
     ,kafka_offset
 from final 
 

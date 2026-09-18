@@ -15,6 +15,7 @@ select
    ,type_inntekt
    ,inntekt
    ,inntekt_kategori
+   ,inntekt_for
    ,kafka_offset
    ,localtimestamp as lastet_dato
 from inntekter

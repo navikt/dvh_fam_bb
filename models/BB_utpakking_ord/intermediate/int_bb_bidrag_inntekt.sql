@@ -3,35 +3,30 @@ with inntekt as (
     from {{ref ('stg_bb_bidrag_inntekt')}}
 ),
 
-bb_fagsak as (
+fagsak as (
     select vedtaks_id, pk_bb_fagsak, kafka_offset, fk_person1_kravhaver, vedtakstidspunkt, stonadstype
     from {{ref ('int_bb_bidrag_fagsak')}}
 ),
 
 
-bb_bidrag_periode as (
-    select periode_fra, periode_til, pk_bb_bidrag_periode, fk_bb_fagsak
-    from {{ref ('int_bb_bidrag_periode')}}
-),
-
 final as (
     select
-        i.type_inntekt
+        STANDARD_HASH(fs.vedtaks_id || '|' || fs.fk_person1_kravhaver || '|' || i.periode_fra || '|' || fs.stonadstype,'MD5') AS fk_bb_bidrag_periode
+        ,fs.fk_person1_kravhaver        
+        ,i.type_inntekt
         ,i.inntekt
         ,i.inntekt_kategori
-        ,i.flagg
+        ,i.inntekt_for
         ,gjelder_kravhaver
         --,nvl(ident_krav.fk_person1, -1) as fk_person1_gjelder_kravhaver
         --,bp.pk_bb_bidrag_periode as fk_bb_bidrag_periode
-        ,STANDARD_HASH(fs.vedtaks_id || '|' || fs.fk_person1_kravhaver || '|' || i.periode_fra || '|' || fs.stonadstype,'MD5') AS fk_bb_bidrag_periode
         ,i.periode_fra
         ,i.periode_til
         --,row_number() over (partition by fs.vedtaks_id, fs.fk_person1_kravhaver , bp.periode_fra, i.type_inntekt  order by i.type_inntekt) as type_inntekt_nr 
         ,i.kafka_offset
         ,fs.vedtaks_id
-        ,fs.fk_person1_kravhaver
     from inntekt i
-    inner join bb_fagsak fs
+    inner join fagsak fs
         on i.kafka_offset = fs.kafka_offset
         and i.vedtaks_id = fs.vedtaks_id
         /*
@@ -52,8 +47,13 @@ final as (
 )
 
 select 
-    standard_hash(vedtaks_id || '|' || type_inntekt || '|' || inntekt_kategori || '|' || periode_fra || '|' || gjelder_kravhaver || '|' || flagg || '|' || fk_person1_kravhaver || '|' || inntekt ,'MD5') pk_bb_inntekt
-    --standard_hash(vedtaks_id || '|' || inntekt_for || '|' || inntekt_kategori || '|' || inntekt_type || '|' ||  gjelder_kravhaver,'MD5')
-    ,f.*
-from final f
+    standard_hash(vedtaks_id || '|' || type_inntekt || '|' || inntekt_kategori || '|' || periode_fra || '|' || gjelder_kravhaver || '|' || inntekt_for || '|' || fk_person1_kravhaver || '|' || inntekt ,'MD5') pk_bb_inntekt
+    --standard_hash(vedtaks_id || '|' || inntekt_for || '|' || inntekt_kategori || '|' || type_inntekt || '|' ||  gjelder_kravhaver,'MD5')
+    ,fk_bb_bidrag_periode
+    ,type_inntekt
+    ,inntekt
+    ,inntekt_kategori
+    ,inntekt_for
+    ,kafka_offset
+from final 
 

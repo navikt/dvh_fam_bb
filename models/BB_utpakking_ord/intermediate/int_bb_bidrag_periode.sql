@@ -1,4 +1,4 @@
-with bb_bidrag_perioder as (
+with perioder as (
     select * from {{ref ('stg_bb_bidrag_periode')}}
 ),
 
@@ -29,15 +29,15 @@ final as (
             WHEN bpbor_med_andre_voksne = 'true' THEN '1'
             WHEN bpbor_med_andre_voksne = 'false' THEN '0'
             ELSE bpbor_med_andre_voksne  
-        END bpbor_med_andre_voksne
+        END as bpbor_med_andre_voksne
         ,netto_tilsynsutgift
         ,faktisk_tilsynsutgift 
-        ,bb_bidrag_perioder.kafka_offset
+        ,perioder.kafka_offset
         ,fagsak.pk_bb_fagsak as fk_bb_fagsak
-    from bb_bidrag_perioder
+    from perioder 
     join fagsak
-        on bb_bidrag_perioder.kafka_offset = fagsak.kafka_offset
-        and bb_bidrag_perioder.vedtaks_id = fagsak.vedtaks_id
+        on perioder.kafka_offset = fagsak.kafka_offset
+        and perioder.vedtaks_id = fagsak.vedtaks_id
 )
 
 select 

@@ -11,15 +11,15 @@ with fagsak as (
 
 select 
     pk_bb_fagsak,
+    fk_bb_meta_data,
+    fk_person1_kravhaver,
+    fk_person1_mottaker,
     vedtaks_id,
     kafka_offset,
     vedtakstidspunkt,
     behandlings_type,
     saksnr,
-    fk_person1_kravhaver,
-    fk_person1_mottaker,
     historisk_vedtak,
-    fk_bb_meta_data,
     localtimestamp as lastet_dato
 from fagsak
 

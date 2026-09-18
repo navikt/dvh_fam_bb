@@ -12,14 +12,14 @@ final as (
                 vedtaks_id varchar2(255) path '$.vedtaksid',
                 nested path '$.forskuddPeriodeListe[*]'
                 columns (
-                    periode_fra                 varchar2(255) path '$.periodeFra'
-                   ,periode_til                 varchar2(255) path '$.periodeTil'
-                   ,belop                       varchar2(255) path '$.beløp'
-                   ,resultat                    varchar2(255) path '$.resultat'
-                   ,barnets_alders_gruppe       varchar2(255) path '$.barnetsAldersgruppe'
-                   ,antall_barn_i_egen_husstand varchar2(255) path '$.antallBarnIEgenHusstand'
-                   ,sivilstand                  varchar2(255) path '$.sivilstand'
-                   ,barn_bor_med_mottaker             varchar2(255) path '$.barnBorMedMottaker'
+                    periode_fra                     varchar2(255) path '$.periodeFra'
+                   ,periode_til                     varchar2(255) path '$.periodeTil'
+                   ,belop                           varchar2(255) path '$.beløp'
+                   ,resultat                        varchar2(255) path '$.resultat'
+                   ,barnets_alders_gruppe           varchar2(255) path '$.barnetsAldersgruppe'
+                   ,antall_barn_i_egen_husstand     varchar2(255) path '$.antallBarnIEgenHusstand'
+                   ,sivilstand                      varchar2(255) path '$.sivilstand'
+                   ,barn_bor_med_mottaker           varchar2(255) path '$.barnBorMedMottaker'
                    ))
         ) j
     where periode_fra is not null

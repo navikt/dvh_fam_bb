@@ -1,4 +1,4 @@
-{% macro hent_inntekt_listel(periode_liste, inntekt_liste, flagg) %}
+{% macro hent_inntekt_liste(periode_liste, inntekt_liste, inntekt_for) %}
 
 select
     kafka_offset,
@@ -10,7 +10,7 @@ select
     gjelder_kravhaver,
     type_inntekt,
     inntekt,
-    '{{ flagg }}' as flagg
+    '{{ inntekt_for }}' as inntekt_for
 from bb_meta_data
     ,json_table(melding, '$'
         columns (

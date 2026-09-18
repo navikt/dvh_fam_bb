@@ -5,12 +5,13 @@
     )
 }}
 
-with forskudd_perioder as (
+with perioder as (
     select * from {{ref ('int_bb_forskudd_periode')}}
 )
 
 select 
     pk_bb_forskudd_periode
+    ,fk_bb_fagsak
     ,periode_fra
     ,periode_til
     ,belop
@@ -20,8 +21,7 @@ select
     ,sivilstand
     ,barn_bor_med_mottaker
     ,kafka_offset
-    ,fk_bb_fagsak
-from forskudd_perioder
+from perioder
 
 {% if is_incremental() %}
     WHERE kafka_offset > COALESCE(( SELECT MAX(t.kafka_offset) FROM {{ this }} t ), 0)

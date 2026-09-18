@@ -5,7 +5,7 @@
     )
 }}
 
-with bidrag_perioder as (
+with perioder as (
     select * from {{ref ('int_bb_bidrag_periode')}}
 )
 
@@ -29,7 +29,7 @@ select
     ,bpbor_med_andre_voksne
     ,kafka_offset
     ,localtimestamp as lastet_dato    
-from bidrag_perioder
+from perioder
 
 {% if is_incremental() %}
     WHERE kafka_offset > COALESCE(( SELECT MAX(t.kafka_offset) FROM {{ this }} t ), 0)

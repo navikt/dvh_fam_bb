@@ -9,15 +9,15 @@ with bb_meta_data as (
 
 final as (
 
-    {{ hent_inntekt_listel('bidragPeriodeListe', 'skyldnerInntektListe', 'P') }}
+    {{ hent_inntekt_liste('bidragPeriodeListe', 'skyldnerInntektListe', 'P') }}
 
     union all
 
-    {{ hent_inntekt_listel('bidragPeriodeListe', 'mottakerInntektListe', 'M') }}
+    {{ hent_inntekt_liste('bidragPeriodeListe', 'mottakerInntektListe', 'M') }}
 
     union all
 
-    {{ hent_inntekt_listel('bidragPeriodeListe', 'kravhaverInntektListe', 'K') }}
+    {{ hent_inntekt_liste('bidragPeriodeListe', 'kravhaverInntektListe', 'K') }}
 
 )
 
@@ -27,7 +27,7 @@ select
     vedtaks_id,
     inntekt_kategori,
     gjelder_kravhaver,
-    flagg,
+    inntekt_for,
     periode_fra,
     periode_til,
     kafka_offset

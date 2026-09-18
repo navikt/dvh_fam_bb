@@ -6,11 +6,11 @@ with bb_meta_data as (
 
 final as (
 
-    {{ hent_inntekt_listel('forskuddPeriodeListe', 'mottakerInntektListe', 'M') }}
+    {{ hent_inntekt_liste('forskuddPeriodeListe', 'mottakerInntektListe', 'M') }}
 
     union all
 
-    {{ hent_inntekt_listel('forskuddPeriodeListe', 'kravhaverInntektListe', 'K') }}
+    {{ hent_inntekt_liste('forskuddPeriodeListe', 'kravhaverInntektListe', 'K') }}
 
 )
 
@@ -21,7 +21,7 @@ select
     ,periode_til
     ,type_inntekt
     ,inntekt
-    ,flagg
+    ,inntekt_for
     ,inntekt_kategori
     ,gjelder_kravhaver
 from final 
