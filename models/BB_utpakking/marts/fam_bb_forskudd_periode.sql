@@ -21,6 +21,7 @@ select
     ,sivilstand
     ,barn_bor_med_mottaker
     ,kafka_offset
+    ,localtimestamp as lastet_dato
 from perioder
 
 {% if is_incremental() %}
