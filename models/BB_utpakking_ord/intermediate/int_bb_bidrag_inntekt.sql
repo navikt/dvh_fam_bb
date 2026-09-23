@@ -47,7 +47,7 @@ final as (
 )
 
 select 
-    standard_hash(vedtaks_id || '|' || type_inntekt || '|' || inntekt_kategori || '|' || periode_fra || '|' || gjelder_kravhaver || '|' || inntekt_for || '|' || fk_person1_kravhaver || '|' || inntekt ,'MD5') pk_bb_inntekt
+    standard_hash(vedtaks_id || '|' || type_inntekt || '|' || inntekt_kategori || '|' || periode_fra || '|' || gjelder_kravhaver || '|' || inntekt_for || '|' || fk_person1_kravhaver || '|' || inntekt ,'MD5') as pk_bb_inntekt
     --standard_hash(vedtaks_id || '|' || inntekt_for || '|' || inntekt_kategori || '|' || type_inntekt || '|' ||  gjelder_kravhaver,'MD5')
     ,fk_bb_bidrag_periode
     ,type_inntekt
