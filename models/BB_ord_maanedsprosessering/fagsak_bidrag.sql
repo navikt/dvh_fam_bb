@@ -58,7 +58,7 @@ fagsak as (
 
   from {{ source ('fam_bb', 'fam_bb_fagsak_ord') }} fagsak
  
-  join {{ source ('fam_bb', 'fam_bb_bidrags_periode_ord') }} periode
+  join {{ source ('fam_bb', 'fam_bb_bidrag_periode_ord') }} periode
   on fagsak.pk_bb_fagsak = periode.fk_bb_fagsak
   --and periode.belop >= 0
 

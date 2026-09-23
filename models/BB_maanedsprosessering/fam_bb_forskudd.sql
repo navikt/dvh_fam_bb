@@ -41,7 +41,7 @@ fagsak as (
         min(fagsak.vedtakstidspunkt) over (partition by tid.aar_maaned, fagsak.fk_person1_kravhaver ,fagsak.saksnr) forste_vedtakstidspunkt           
     from {{ source ('fam_bb', 'fam_bb_fagsak') }} fagsak
  
-    join {{ source ('fam_bb', 'fam_bb_forskudds_periode') }} periode
+    join {{ source ('fam_bb', 'fam_bb_forskudd_periode') }} periode
     on fagsak.pk_bb_fagsak = periode.fk_bb_fagsak
     and periode.belop > 0
  
@@ -64,7 +64,7 @@ opphor_fra as (
           ,min(periode.periode_fra) periode_fra_opphor
     from {{ source ('fam_bb', 'fam_bb_fagsak') }} fagsak 
 
-    join {{ source ('fam_bb', 'fam_bb_forskudds_periode') }} periode
+    join {{ source ('fam_bb', 'fam_bb_forskudd_periode') }} periode
     on fagsak.pk_bb_fagsak = periode.fk_bb_fagsak
     and periode.belop is null
 

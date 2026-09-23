@@ -5,7 +5,7 @@ with opphor_fra as (
       ,min(periode.periode_fra) periode_fra_opphor
       from {{ source ('fam_bb', 'fam_bb_fagsak_ord') }} fagsak 
 
-      join {{ source ('fam_bb', 'fam_bb_bidrags_periode_ord') }} periode
+      join {{ source ('fam_bb', 'fam_bb_bidrag_periode_ord') }} periode
       on fagsak.pk_bb_fagsak = periode.fk_bb_fagsak
       and ( periode.belop is null OR (fagsak.behandlings_type ='OPPHØR' and periode.belop=0) )
 
