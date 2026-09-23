@@ -5,7 +5,7 @@ with inntekt AS (
         BELOP,
         flagg,
         ROW_NUMBER() OVER (PARTITION BY FK_BB_BIDRAGS_PERIODE, flagg ORDER BY TYPE_INNTEKT) AS NR
-    FROM {{ source ('fam_bb', 'fam_bb_inntekts_liste_ord') }}
+    FROM {{ source ('fam_bb', 'fam_bb_inntekt_ord') }}
 ),
 
 inntekts_typer as (

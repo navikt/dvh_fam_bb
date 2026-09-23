@@ -23,7 +23,7 @@ fagsak as (
 
   from {{ source ('fam_bb', 'fam_bb_fagsak') }} fagsak
  
-  join {{ source ('fam_bb', 'fam_bb_forskudds_periode') }} periode
+  join {{ source ('fam_bb', 'fam_bb_forskudd_periode') }} periode
   on fagsak.pk_bb_fagsak = periode.fk_bb_fagsak
   and periode.belop > 0
  
