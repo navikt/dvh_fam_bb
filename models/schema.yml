@@ -35,17 +35,11 @@ sources:
       - name: fam_bb_fagsak
         description: 'inneholder vedtaksinformasjon for forskudd biten'
       - name: fam_bb_fagsak_ord
-        description: 'inneholder vedtaksinformasjon for bidrga biten'
-      - name: fam_bb_forskudds_periode
-      - name: fam_bb_bidrags_periode_ord
-      - name: fam_bb_inntekts_liste_ord
+        description: 'inneholder vedtaksinformasjon for bidrag biten'
+      - name: fam_bb_forskudd_periode
+      - name: fam_bb_bidrag_periode_ord
+      - name: fam_bb_inntekt_ord
       - name: fam_bb_inntekt
-      - name: stg_fam_bb_barn_bis
-      - name: stg_fam_bb_mottaker_bis      
-      - name: stg_fam_bb_pliktige_bis
-      - name: stg_fam_bb_barn_berm
-      - name: stg_fam_bb_mottaker_berm      
-      - name: stg_fam_bb_pliktige_berm
       - name: fam_bb_bidrag_resultat_mapping
 
 
