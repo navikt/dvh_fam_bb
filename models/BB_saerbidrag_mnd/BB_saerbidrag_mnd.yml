@@ -16,7 +16,7 @@ models:
         description: '{{ doc("vedtakstidspunkt") }}'
       - name: inntekt_kategori
         data_type: varchar2
-      - name: inntekt_type
+      - name: type_inntekt
         data_type: varchar2
       - name: inntekt_mottaker
         data_type: number

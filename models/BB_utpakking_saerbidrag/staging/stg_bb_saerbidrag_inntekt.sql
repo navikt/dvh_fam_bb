@@ -17,9 +17,9 @@ skyld as (
 
                 ,nested PATH '$.skyldnerInntektListe[*]'
                     columns(
-                        inntekt_kategori VARCHAR2(255)   PATH '$.type'
+                        type_inntekt VARCHAR2(255)   PATH '$.type'
                         ,gjelder_kravhaver   VARCHAR2(255)   PATH '$.gjelderKravhaver'
-                        ,inntekt_type VARCHAR2(255)   PATH '$.inntektstype'
+                        ,inntekt_kategori VARCHAR2(255)   PATH '$.inntektstype'
                         ,inntekt_belop    NUMBER(16,2)    PATH '$.beløp'
 
                     )
@@ -44,9 +44,9 @@ mott as (
 
                 ,nested PATH '$.mottakerInntektListe[*]'
                     columns(
-                        inntekt_kategori VARCHAR2(255)   PATH '$.type'
+                        type_inntekt VARCHAR2(255)   PATH '$.type'
                         ,gjelder_kravhaver   VARCHAR2(255)   PATH '$.gjelderKravhaver'
-                        ,inntekt_type VARCHAR2(255)   PATH '$.inntektstype'
+                        ,inntekt_kategori VARCHAR2(255)   PATH '$.inntektstype'
                         ,inntekt_belop    NUMBER(16,2)    PATH '$.beløp'
                     )
             )
@@ -71,9 +71,9 @@ krav as (
 
                 ,nested PATH '$.kravhaverInntektListe[*]'
                     columns(
-                        inntekt_kategori VARCHAR2(255)   PATH '$.type'
+                        type_inntekt VARCHAR2(255)   PATH '$.type'
                         ,gjelder_kravhaver   VARCHAR2(255)   PATH '$.gjelderKravhaver'
-                        ,inntekt_type VARCHAR2(255)   PATH '$.inntektstype'
+                        ,inntekt_kategori VARCHAR2(255)   PATH '$.inntektstype'
                         ,inntekt_belop    NUMBER(16,2)    PATH '$.beløp'
                     )
             )
@@ -90,9 +90,9 @@ final as (
         ,kravhaver
         ,gjelder_kravhaver
         ,historisk_vedtak
+        ,type_inntekt
         ,inntekt_kategori
-        ,inntekt_type
-        ,'p' as inntekt_for -- p for pliktig/skyldner
+        ,'P' as inntekt_for -- p for pliktig/skyldner
         ,inntekt_belop
     from skyld
  
@@ -105,9 +105,9 @@ final as (
         ,kravhaver
         ,gjelder_kravhaver
         ,historisk_vedtak
+        ,type_inntekt
         ,inntekt_kategori
-        ,inntekt_type
-        ,'m' as inntekt_for -- m for mottaker
+        ,'M' as inntekt_for -- m for mottaker
         ,inntekt_belop
     from mott
 
@@ -120,9 +120,9 @@ final as (
         ,kravhaver
         ,gjelder_kravhaver
         ,historisk_vedtak
+        ,type_inntekt
         ,inntekt_kategori
-        ,inntekt_type
-        ,'k' as inntekt_for -- k for kravhaver
+        ,'K' as inntekt_for -- k for kravhaver
         ,inntekt_belop
     from krav
 )

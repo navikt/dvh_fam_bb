@@ -20,23 +20,23 @@ final as (
  SELECT * 
 FROM ( 
     SELECT
-    FK_BB_SAERBIDRAG_FAGSAK,
-    SAKSNR,
-    VEDTAKS_ID,
+    fk_bb_saerbidrag_fagsak,
+    saksnr,
+    vedtaks_id,
     vedtakstidspunkt,
+    type_inntekt,
     inntekt_kategori,
-    inntekt_type,
-    INNTEKT_FOR,
+    inntekt_for,
     inntekt_belop,
     lastet_dato as mart_lastet_dato
     FROM inn
 ) 
 PIVOT ( 
     SUM(inntekt_belop)  
-    FOR INNTEKT_FOR IN ( 
-        'm' AS inntekt_mottaker,
-        'p' AS inntekt_skyldner,
-        'k' as inntekt_kravhaver
+    FOR inntekt_for IN ( 
+        'M' AS inntekt_mottaker,
+        'P' AS inntekt_skyldner,
+        'K' as inntekt_kravhaver
     ) 
 ) piv
 )
@@ -46,12 +46,12 @@ Slutt-tabellen med utvalgte kolonner, gyldig_flagg og lastet_dato.
 */
 
 select     
-    RAWTOHEX(FK_BB_SAERBIDRAG_FAGSAK)  as key_fak_bb_saerbidrag,
-    VEDTAKS_ID,
-    SAKSNR,
+    RAWTOHEX(fk_bb_saerbidrag_fagsak)  as key_fak_bb_saerbidrag,
+    vedtaks_id,
+    saksnr,
     vedtakstidspunkt,
+    type_inntekt,
     inntekt_kategori,
-    inntekt_type,
     inntekt_mottaker,
     inntekt_skyldner,
     inntekt_kravhaver,

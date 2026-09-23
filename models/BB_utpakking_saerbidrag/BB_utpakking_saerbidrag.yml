@@ -36,7 +36,7 @@ models:
       - name: inntekt_kategori
         description: "Inntektens kategori."
         data_type: varchar2
-      - name: inntekt_type
+      - name: type_inntekt
         description: "Inntektens type."
         data_type: varchar2
       - name: inntekt_for

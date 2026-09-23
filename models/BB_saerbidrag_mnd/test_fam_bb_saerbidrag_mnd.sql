@@ -42,19 +42,19 @@ inntekt as (
     SELECT * 
     FROM ( 
         SELECT
-            FK_BB_SAERBIDRAG_FAGSAK as key_fak_bb_saerbidrag,
+            fk_bb_saerbidrag_fagsak as key_fak_bb_saerbidrag,
             inntekt_kategori,
-            INNTEKT_FOR,
+            inntekt_for,
             inntekt_belop
         FROM {{ ref('fam_bb_saerbidrag_inntekt') }}
     )
     PIVOT ( 
         SUM(inntekt_belop) as totalt,
         COUNT(DISTINCT inntekt_kategori) AS antall_typer  
-        FOR INNTEKT_FOR IN ( 
-            'm' AS inntekt_mottaker,
-            'p' AS inntekt_skyldner,
-            'k' as inntekt_kravhaver
+        FOR inntekt_for IN ( 
+            'M' AS inntekt_mottaker,
+            'P' AS inntekt_skyldner,
+            'K' as inntekt_kravhaver
         ) 
     ) piv
 ),
