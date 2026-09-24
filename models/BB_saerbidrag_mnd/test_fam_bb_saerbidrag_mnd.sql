@@ -36,6 +36,35 @@ with fag as (
 ),
 
 /* 
+Valutakonvertering av beløp, basert på siste tilgjengelige kurs ved månedslutt. Det vil si siste dag i mnd - 1, da kurser fra norges bank
+tilgjengeliggjøres kl 16.
+*/
+
+
+fag_med_valuta_kon as (
+    select t1.*
+    ,case when t1.valuta_kode ='NOK' then t1.belop else  (t1.belop * t3.kurs ) / t3.valutamengde end as belop_nok
+    ,case when t1.valuta_kode ='NOK' then t1.krav_belop else  (t1.krav_belop * t3.kurs ) / t3.valutamengde end as krav_belop_nok
+    ,case when t1.valuta_kode ='NOK' then t1.godkjent_belop else  (t1.godkjent_belop * t3.kurs ) / t3.valutamengde end as godkjent_belop_nok
+    ,case when t1.valuta_kode ='NOK' then t1.betalt_belop else  (t1.betalt_belop * t3.kurs ) / t3.valutamengde end as betalt_belop_nok
+    from fag t1
+    left join {{ ref('dim_siste_dato_mnd') }} t2
+    on concat(TO_CHAR(t1.vedtakstidspunkt, 'yyyymm'),'003') = t2.pk_dim_tid
+    left join  (
+        select valuta
+            ,valutamengde
+            ,kurs
+            ,gyldig_fra_dato 
+        from {{ source('kode_verk', 'valutakurser') }}
+        where frekvens = 'DAG' 
+        and kvoteringsvaluta = 'NOK'
+      ) t3
+    on t1.valuta_kode = t3.valuta 
+    and t2.valuta_siste_kurs_dato_i_mnd = t3.gyldig_fra_dato
+
+),
+
+/* 
 Finn total inntekt for personer, og tell antall kategorier inntektene kommer fra
 */
 inntekt as (
@@ -70,14 +99,14 @@ siste_omgjoring as ( select t1.pk_bb_saerbidrag_fagsak
             ,t1.saksnr
             ,TO_CHAR(t1.vedtakstidspunkt, 'yyyymm') as aarmnd_omgjort
             ,1 as aktuell
-        FROM fag t1
+        FROM fag_med_valuta_kon t1
        
         INNER JOIN (
             SELECT OMGJOR_VEDTAKS_ID
                 ,fk_person1_kravhaver
                 ,saksnr
                 ,MAX(vedtakstidspunkt) AS max_date 
-            FROM fag  
+            FROM fag_med_valuta_kon  
             where OMGJOR_VEDTAKS_ID is not null
             GROUP BY OMGJOR_VEDTAKS_ID
                 ,fk_person1_kravhaver
@@ -103,13 +132,15 @@ omgjoring as (
         ,case when t1.aarmnd_original = t2.aarmnd_omgjort then 0 else 1 end as aktuell
         ,t2.aarmnd_omgjort as aarmnd_omgjort_belopsendring
         ,case when t1.aarmnd_original < t2.aarmnd_omgjort then t1.belop * (-1) else 0 end as belop_endring
+        ,case when t1.aarmnd_original < t2.aarmnd_omgjort then t1.belop_nok * (-1) else 0 end as belop_endring_nok
     from (
         select vedtaks_id
             ,fk_person1_kravhaver
             ,saksnr
             ,to_char(vedtakstidspunkt, 'yyyymm') as aarmnd_original
             ,case when belop is null then 0 else belop end as belop
-        FROM fag
+            ,case when belop_nok is null then 0 else belop_nok end as belop_nok
+        FROM fag_med_valuta_kon
     ) t1
     inner join siste_omgjoring t2 
     on t1.vedtaks_id = t2.OMGJOR_VEDTAKS_ID
@@ -153,8 +184,12 @@ vedtak as (
         ,t1.krav_belop
         ,t1.godkjent_belop
         ,t1.betalt_belop
+        ,t1.belop_nok
+        ,t1.krav_belop_nok
+        ,t1.godkjent_belop_nok
+        ,t1.betalt_belop_nok
         ,t1.lastet_dato as mart_lastet_dato
-    from fag t1
+    from fag_med_valuta_kon t1
     left join omgjoring t2
     on t1.vedtaks_id = t2.vedtaks_id
     and  t1.fk_person1_kravhaver = t2.fk_person1_kravhaver
@@ -190,6 +225,10 @@ omgjorings_vedtak as (
         ,NULL as krav_belop
         ,NULL as godkjent_belop
         ,NULL as betalt_belop
+        ,t2.belop_nok
+        ,NULL as krav_belop_nok
+        ,NULL as godkjent_belop_nok
+        ,NULL as betalt_belop_nok
         ,NULL as mart_lastet_dato
         from vedtak t1
         inner join  
@@ -198,6 +237,7 @@ omgjorings_vedtak as (
                 ,fk_person1_kravhaver
                 ,saksnr
                 ,sum(belop_endring) as belop
+                ,sum(belop_endring_nok) as belop_nok
             from omgjoring
             group by aarmnd_omgjort_belopsendring
                 ,vedtaks_id
