@@ -26,10 +26,10 @@ sources:
     schema: dt_kodeverk
     tables:
       - name: dim_alder
-        descrition: 'Dimensjonsverdier for alder.'
       - name: dim_tid
       - name: dim_geografi
       - name: dim_kjonn
+      - name: valutakurser
 
   - name: fam_bb
     schema: dvh_fam_bb

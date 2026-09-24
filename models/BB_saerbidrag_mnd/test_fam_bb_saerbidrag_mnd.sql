@@ -224,6 +224,18 @@ select * from omgjorings_vedtak
 ),
 
 /* 
+Kobler inn siste dag for å unngå å telle samme person flere ganger i samme måned. For eks hvis noen flytter og får ny kommune, 
+vil de kunne bli telt for begge kommunene innad i samme måned.
+*/
+siste_dato_i_mnd as (
+    select t1.* 
+    ,t2.siste_dato_i_perioden
+    from sammenstilling t1
+    left join {{ ref('dim_siste_dato_mnd') }} t2
+    on concat(TO_CHAR(t1.vedtakstidspunkt, 'yyyymm'),'003') = t2.pk_dim_tid
+),
+
+/* 
 Kobler inn inntekt-kolonner, og dimensjonskolonner for skyldner, kravhaver og mottaker.
 */
 
@@ -241,21 +253,21 @@ pre_final as (
     ,trunc(months_between(to_date(aar_maaned, 'yyyymm'), to_date(t7.fodt_aar_maaned, 'yyyymm')) / 12) AS mottaker_alder    
     ,{{ dbt_dvh_macros.BREDAGG__ephemeral_star(model_name='dim_person_felter', relation_alias='t5', prefix='KRAVHAVER_', except=["fk_person1","gyldig_fra_dato", "gyldig_til_dato" ]) }}
     ,trunc(months_between(to_date(aar_maaned, 'yyyymm'), to_date(t8.fodt_aar_maaned, 'yyyymm')) / 12) AS kravhaver_alder
-    from sammenstilling t1
+    from siste_dato_i_mnd t1
     left join inntekt t2
     on t1.key_fak_bb_saerbidrag = t2.key_fak_bb_saerbidrag
     left join  {{ ref('dim_person_felter') }} t3
     on t1.fk_person1_skyldner = t3.fk_person1
-        and t3.gyldig_fra_dato <= t1.vedtakstidspunkt
-        and t3.gyldig_til_dato >= t1.vedtakstidspunkt
+        and t3.gyldig_fra_dato <= t1.siste_dato_i_perioden
+        and t3.gyldig_til_dato >= t1.siste_dato_i_perioden
     left join  {{ ref('dim_person_felter') }} t4
     on t1.fk_person1_mottaker = t4.fk_person1
-        and t4.gyldig_fra_dato <= t1.vedtakstidspunkt
-        and t4.gyldig_til_dato >= t1.vedtakstidspunkt
+        and t4.gyldig_fra_dato <= t1.siste_dato_i_perioden
+        and t4.gyldig_til_dato >= t1.siste_dato_i_perioden
     left join  {{ ref('dim_person_felter') }} t5
     on t1.fk_person1_kravhaver = t5.fk_person1
-        and t5.gyldig_fra_dato <= t1.vedtakstidspunkt
-        and t5.gyldig_til_dato >= t1.vedtakstidspunkt
+        and t5.gyldig_fra_dato <= t1.siste_dato_i_perioden
+        and t5.gyldig_til_dato >= t1.siste_dato_i_perioden
 -- alder
     left join  {{ ref('dim_person_fodt') }} t6
     on t1.fk_person1_skyldner = t6.fk_person1

@@ -69,3 +69,8 @@ models:
       - name: fk_person1
       - name: fodt_dato
       - name: fodt_aar_maaned
+
+  - name: dim_siste_dato_mnd
+    columns:
+      - name: pk_dim_tid
+      - name: siste_dato_i_perioden

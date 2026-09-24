@@ -197,6 +197,7 @@ models:
         description: '{{ doc("lastet_dato") }}'
       - name: kravhaver_alder
         data_type: number
+      - name: siste_dato_i_perioden
 
   - name: test_view_fak_bb_inntekt
 
