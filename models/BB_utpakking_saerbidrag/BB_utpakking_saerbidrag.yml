@@ -33,6 +33,8 @@ models:
       - name: historisk_flagg
         description: '{{ doc("historisk_flagg") }}'
         data_type: number
+      - name: valuta_kode
+        description: "Valutakode for innteksbeløpene."
       - name: inntekt_kategori
         description: "Inntektens kategori."
         data_type: varchar2

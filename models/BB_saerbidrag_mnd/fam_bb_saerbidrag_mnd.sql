@@ -219,7 +219,7 @@ omgjorings_vedtak as (
         ,t1.fk_person1_kravhaver
         ,t1.fk_person1_mottaker
         ,t2.belop
-        ,t1.valuta_kode   -- må håndteres tidligere
+        ,t1.valuta_kode
         ,t1.resultat
         ,NULL as historisk_flagg
         ,NULL as krav_belop

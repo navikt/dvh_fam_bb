@@ -14,6 +14,7 @@ skyld as (
                 ,kravhaver varchar2(255 char) PATH '$.kravhaver'
                 ,mottaker varchar2(255 char) PATH '$.mottaker'
                 ,historisk_vedtak varchar2(255 char) PATH '$.historiskVedtak'
+                ,valuta_kode varchar2(5 char) PATH '$.valutakode'
 
                 ,nested PATH '$.skyldnerInntektListe[*]'
                     columns(
@@ -41,6 +42,7 @@ mott as (
                 ,kravhaver varchar2(255 char) PATH '$.kravhaver'
                 ,mottaker varchar2(255 char) PATH '$.mottaker'
                 ,historisk_vedtak varchar2(255 char) PATH '$.historiskVedtak'
+                ,valuta_kode varchar2(5 char) PATH '$.valutakode'
 
                 ,nested PATH '$.mottakerInntektListe[*]'
                     columns(
@@ -68,6 +70,7 @@ krav as (
                 ,kravhaver varchar2(255 char) PATH '$.kravhaver'
                 ,mottaker varchar2(255 char) PATH '$.mottaker'
                 ,historisk_vedtak varchar2(255 char) PATH '$.historiskVedtak'
+                ,valuta_kode varchar2(5 char) PATH '$.valutakode'
 
                 ,nested PATH '$.kravhaverInntektListe[*]'
                     columns(
@@ -93,6 +96,7 @@ final as (
         ,type_inntekt
         ,inntekt_kategori
         ,'P' as inntekt_for -- p for pliktig/skyldner
+        ,valuta_kode
         ,inntekt_belop
     from skyld
  
@@ -108,6 +112,7 @@ final as (
         ,type_inntekt
         ,inntekt_kategori
         ,'M' as inntekt_for -- m for mottaker
+        ,valuta_kode
         ,inntekt_belop
     from mott
 
@@ -123,6 +128,7 @@ final as (
         ,type_inntekt
         ,inntekt_kategori
         ,'K' as inntekt_for -- k for kravhaver
+        ,valuta_kode
         ,inntekt_belop
     from krav
 )

@@ -14,6 +14,7 @@ final as (
         ,type_inntekt
         ,inntekt_kategori
         ,inntekt_for
+        ,valuta_kode
         ,inntekt_belop
     from sb_inn
 )

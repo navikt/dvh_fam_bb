@@ -1,6 +1,6 @@
 models:
 
-  - name: test_fam_bb_saerbidrag_inntekt_mnd
+  - name: fam_bb_saerbidrag_inntekt_mnd
     description: Støttetabell for inntekter.
     columns:
       - name: key_fak_bb_saerbidrag
@@ -35,7 +35,7 @@ models:
       - name: inntekt_skyldner
         data_type: number
 
-  - name: test_fam_bb_saerbidrag_mnd
+  - name: fam_bb_saerbidrag_mnd
     description: Månedsrapportering for særbidrag.
     columns:
       - name: key_fak_bb_saerbidrag
@@ -199,6 +199,6 @@ models:
         data_type: number
       - name: siste_dato_i_perioden
 
-  - name: test_view_fak_bb_inntekt
+  - name: view_fak_bb_inntekt
 
-  - name: test_view_fak_bb_saerbidrag
+  - name: view_fak_bb_saerbidrag
