@@ -85,13 +85,13 @@ models:
         description: '{{ doc("saksnr") }}'
         data_type: varchar2
       - name: fk_person1_skyldner
-        description: "#NAVN Syntetisk nøkkel skyldner #INNHOLD Syntetisk identifikator for skyldner. #NAVN_ENG Title DWH #INNHOLD_ENG Info"
+        description: "#NAVN Skyldners syntetiske nøkkel for dim_person #INNHOLD Syntetisk identifikator for skyldner. #NAVN_ENG Title DWH #INNHOLD_ENG Info"
         data_type: number
       - name: fk_person1_kravhaver
-        description: "#NAVN Syntetisk nøkkel kravhaver #INNHOLD Syntetisk identifikator for kravhaver. #NAVN_ENG Title DWH #INNHOLD_ENG Info"
+        description: "#NAVN Kravhavers syntetiske nøkkel for dim_person #INNHOLD Syntetisk identifikator for kravhaver. #NAVN_ENG Title DWH #INNHOLD_ENG Info"
         data_type: number
       - name: fk_person1_mottaker
-        description: "#NAVN Syntetisk nøkkel mottaker #INNHOLD Syntetisk identifikator for mottaker. #NAVN_ENG Title DWH #INNHOLD_ENG Info"
+        description: "#NAVN Mottakers syntetiske nøkkel for dim_person #INNHOLD Syntetisk identifikator for mottaker. #NAVN_ENG Title DWH #INNHOLD_ENG Info"
         data_type: number
       - name: belop
         description: "#NAVN Beløp #INNHOLD Skyldners andel av godkjent beløp. #NAVN_ENG Title DWH #INNHOLD_ENG Info"
