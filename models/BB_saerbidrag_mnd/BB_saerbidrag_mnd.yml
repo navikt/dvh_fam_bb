@@ -1,10 +1,11 @@
 models:
 
   - name: fam_bb_saerbidrag_inntekt_mnd
-    description: Støttetabell for inntekter.
+    description: "Støttetabell for inntekter."
     columns:
       - name: key_fak_bb_saerbidrag
         data_type: raw
+        description: "#NAVN Nøkkel mot fak_bb_saerbidrag #INNHOLD Fremmednøkkel mot månedsrapportering for særbidrag.  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: vedtaks_id
         data_type: varchar2
         description: '{{ doc("vedtaks_id") }}'
@@ -16,41 +17,66 @@ models:
         description: '{{ doc("vedtakstidspunkt") }}'
       - name: inntekt_kategori
         data_type: varchar2
+        description: "#NAVN Inntektskategori #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: type_inntekt
         data_type: varchar2
+        description: "#NAVN Inntektstype #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: inntekt_mottaker
         data_type: number
+        description: "#NAVN Mottakers inntekt #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: inntekt_skyldner
         data_type: number
+        description: "#NAVN Skyldners inntekt #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: gyldig_flagg
         data_type: char
+        description: "#NAVN DVH gyldig flagg #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: mart_lastet_dato
         data_type: timestamp(6)
         description: '{{ doc("mart_lastet_dato") }}'
       - name: lastet_dato
         data_type: timestamp(6)
-        description: '{{ doc("lastet_dato") }}'
+        description:  '{{ doc("lastet_dato") }}'
       - name: key_fak_bb_saerbidrag
         data_type: raw
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: inntekt_skyldner
         data_type: number
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
+      - name: VALUTA_KODE
+        description: '{{ doc("valuta_kode") }}'        
+      - name: INNTEKT_KRAVHAVER
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
+      - name: INNTEKT_MOTTAKER_NOK
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
+      - name: INNTEKT_SKYLDNER_NOK
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info"         
+      - name: INNTEKT_KRAVHAVER_NOK
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
+
+
+
 
   - name: fam_bb_saerbidrag_mnd
-    description: Månedsrapportering for særbidrag.
+    description: "Månedsrapportering for særbidrag."
     columns:
       - name: key_fak_bb_saerbidrag
         data_type: raw
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info"
         data_tests:
           - not_null
           - unique
       - name: fk_dim_tid
         data_type: varchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: aar_maaned
         data_type: varchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: referanse
         data_type: varchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: aktuell_flagg
         data_type: number
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: vedtaks_id
         data_type: varchar2
         description: '{{ doc("vedtaks_id") }}'
@@ -59,6 +85,7 @@ models:
         description: '{{ doc("vedtakstidspunkt") }}'
       - name: behandlings_type
         data_type: varchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: kategori
         data_type: varchar2
       - name: saksnr
@@ -66,138 +93,265 @@ models:
         description: '{{ doc("saksnr") }}'
       - name: fk_person1_skyldner
         data_type: number
-        description: Syntetisk identifikator for skyldner.
+        description: "#NAVN Tittel #INNHOLD Syntetisk identifikator for skyldner. #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: fk_person1_kravhaver
         data_type: number
-        description: Syntetisk identifikator for kravhaver.
+        description: "#NAVN Tittel #INNHOLD Syntetisk identifikator for kravhaver. #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: fk_person1_mottaker
         data_type: number
-        description: Syntetisk identifikator for mottaker.
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: belop
         data_type: number
+        description: "#NAVN Tittel #INNHOLD Syntetisk identifikator for mottaker. #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: valuta_kode
         data_type: varchar2
         description: '{{ doc("valuta_kode") }}'
       - name: resultat
         data_type: varchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: historisk_flagg
         data_type: number
         description: '{{ doc("historisk_flagg") }}'
       - name: krav_belop
         data_type: number
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: godkjent_belop
         data_type: number
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: betalt_belop
         data_type: number
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: mart_lastet_dato
         data_type: timestamp(6)
-        description: '{{ doc("mart_lastet_dato") }}'
+        description:  '{{ doc("mart_lastet_dato") }}'
       - name: inntekt_mottaker_totalt
         data_type: number
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: inntekt_mottaker_antall_typer
         data_type: number
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: inntekt_skyldner_totalt
         data_type: number
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: inntekt_skyldner_antall_typer
         data_type: number
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: skyldner_fk_dim_person
         data_type: number
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: skyldner_statsborgerskap
         data_type: varchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: skyldner_bosted_land
         data_type: varchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: skyldner_fylke_nr
         data_type: varchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: skyldner_fylke_navn
         data_type: nvarchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: skyldner_fylke_gruppe_nr
         data_type: varchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: skyldner_fylke_gruppe_besk
         data_type: nvarchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: skyldner_kommune_nr
         data_type: varchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: skyldner_kommune_navn
         data_type: nvarchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: skyldner_kommune_gruppe_nr
         data_type: varchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: skyldner_kommune_gruppe_besk
         data_type: nvarchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: skyldner_bydel_nr
         data_type: varchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: skyldner_bydel_navn
         data_type: nvarchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: skyldner_kjonn_kode
         data_type: varchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: skyldner_kjonn_flertall_besk
         data_type: varchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: mottaker_fk_dim_person
         data_type: number
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: mottaker_statsborgerskap
         data_type: varchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: mottaker_bosted_land
         data_type: varchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: mottaker_fylke_nr
         data_type: varchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: mottaker_fylke_navn
         data_type: nvarchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: mottaker_fylke_gruppe_nr
         data_type: varchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: mottaker_fylke_gruppe_besk
         data_type: nvarchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: mottaker_kommune_nr
         data_type: varchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: mottaker_kommune_navn
         data_type: nvarchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: mottaker_kommune_gruppe_nr
         data_type: varchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: mottaker_kommune_gruppe_besk
         data_type: nvarchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: mottaker_bydel_nr
         data_type: varchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: mottaker_bydel_navn
         data_type: nvarchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: mottaker_kjonn_kode
         data_type: varchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: mottaker_kjonn_flertall_besk
         data_type: varchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: kravhaver_fk_dim_person
         data_type: number
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: kravhaver_statsborgerskap
         data_type: varchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: kravhaver_bosted_land
         data_type: varchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: kravhaver_fylke_nr
         data_type: varchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: kravhaver_fylke_navn
         data_type: nvarchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: kravhaver_fylke_gruppe_nr
         data_type: varchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: kravhaver_fylke_gruppe_besk
         data_type: nvarchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: kravhaver_kommune_nr
         data_type: varchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: kravhaver_kommune_navn
         data_type: nvarchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: kravhaver_kommune_gruppe_nr
         data_type: varchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: kravhaver_kommune_gruppe_besk
         data_type: nvarchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: kravhaver_bydel_nr
         data_type: varchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: kravhaver_bydel_navn
         data_type: nvarchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: kravhaver_kjonn_kode
         data_type: varchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: kravhaver_kjonn_flertall_besk
         data_type: varchar2
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: gyldig_flagg
         data_type: char
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: lastet_dato
         data_type: timestamp(6)
         description: '{{ doc("lastet_dato") }}'
       - name: kravhaver_alder
         data_type: number
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
       - name: siste_dato_i_perioden
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
+      - name: MOTTAKER_FYLKE_NR_NAVN
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
+      - name: MOTTAKER_KOMMUNE_NR_NAVN
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info"
+      - name: MOTTAKER_FK_DIM_KJONN
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
+      - name: MOTTAKER_ALDER
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
+      - name: KRAVHAVER_FK_DIM_GEOGRAFI
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info"
+      - name: KRAVHAVER_FYLKE_NR_NAVN
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
+      - name: KRAVHAVER_KOMMUNE_NR_NAVN
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
+      - name: KRAVHAVER_FK_DIM_KJONN
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info"
+      - name: SKYLDNER_FK_DIM_ALDER
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
+      - name: SKYLDNER_TI_AAR_GRUPPE_BESK
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
+      - name: SKYLDNER_ALDER_GRUPPE5_BESK
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info"
+      - name: SKYLDNER_ALDER_GRUPPE7_BESK
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
+      - name: MOTTAKER_FK_DIM_ALDER
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
+      - name: MOTTAKER_TI_AAR_GRUPPE_BESK
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info"
+      - name: MOTTAKER_ALDER_GRUPPE5_BESK
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
+      - name: MOTTAKER_ALDER_GRUPPE7_BESK
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
+      - name: KRAVHAVER_FK_DIM_ALDER
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info"
+      - name: KRAVHAVER_TI_AAR_GRUPPE_BESK
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
+      - name: KRAVHAVER_ALDER_GRUPPE5_BESK
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
+      - name: KRAVHAVER_ALDER_GRUPPE7_BESK
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info"
+      - name: KATEGORI
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
+      - name: BELOP_NOK
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
+      - name: KRAV_BELOP_NOK
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info"
+      - name: GODKJENT_BELOP_NOK
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
+      - name: BETALT_BELOP_NOK
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
+      - name: INNTEKT_KRAVHAVER_TOTALT
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info"
+      - name: INNTEKT_KRAVHAVER_ANTALL_TYPER
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
+      - name: SKYLDNER_FK_DIM_GEOGRAFI
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
+      - name: SKYLDNER_FYLKE_NR_NAVN
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info"
+      - name: SKYLDNER_KOMMUNE_NR_NAVN
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
+      - name: SKYLDNER_FK_DIM_KJONN
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info" 
+      - name: SKYLDNER_ALDER
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info"
+      - name: MOTTAKER_FK_DIM_GEOGRAFI
+        description: "#NAVN Tittel #INNHOLD  #NAVN_ENG Title DWH #INNHOLD_ENG Info"        
+
+
+
+
 
   - name: view_fak_bb_inntekt
 
