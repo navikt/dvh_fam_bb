@@ -21,6 +21,9 @@ with saer as (
     ,mottaker_fk_dim_kjonn
 ),
 
+
+
+
 final as ( 
     select 
     'Barnebidrag' as kilde_omraade,

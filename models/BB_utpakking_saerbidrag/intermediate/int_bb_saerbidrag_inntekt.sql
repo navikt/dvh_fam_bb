@@ -11,9 +11,10 @@ final as (
         ,vedtaks_id
         ,vedtakstidspunkt
         ,case when historisk_vedtak = 'true' then 1 else 0 end as historisk_flagg
+        ,type_inntekt
         ,inntekt_kategori
-        ,inntekt_type
         ,inntekt_for
+        ,valuta_kode
         ,inntekt_belop
     from sb_inn
 )
@@ -22,7 +23,7 @@ final as (
 
 
 
-select standard_hash(vedtaks_id || '|' || inntekt_for || '|' || inntekt_kategori || '|' || inntekt_type || '|' ||  gjelder_kravhaver,'MD5') as pk_bb_inntekt_saerbidrag
+select standard_hash(vedtaks_id || '|' || inntekt_for || '|' || type_inntekt  || '|' || inntekt_kategori || '|' ||  gjelder_kravhaver,'MD5') as pk_bb_inntekt_saerbidrag
     ,final.*
 
  from final

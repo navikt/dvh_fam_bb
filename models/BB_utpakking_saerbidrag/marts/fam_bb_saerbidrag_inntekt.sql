@@ -18,9 +18,10 @@ final as (
         ,vedtaks_id
         ,vedtakstidspunkt
         ,historisk_flagg
+        ,type_inntekt
         ,inntekt_kategori
-        ,inntekt_type
         ,inntekt_for
+        ,valuta_kode
         ,inntekt_belop
         ,localtimestamp as lastet_dato 
     from sb_inn

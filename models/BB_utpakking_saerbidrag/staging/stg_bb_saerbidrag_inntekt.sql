@@ -14,12 +14,13 @@ skyld as (
                 ,kravhaver varchar2(255 char) PATH '$.kravhaver'
                 ,mottaker varchar2(255 char) PATH '$.mottaker'
                 ,historisk_vedtak varchar2(255 char) PATH '$.historiskVedtak'
+                ,valuta_kode varchar2(5 char) PATH '$.valutakode'
 
                 ,nested PATH '$.skyldnerInntektListe[*]'
                     columns(
-                        inntekt_kategori VARCHAR2(255)   PATH '$.type'
+                        type_inntekt VARCHAR2(255)   PATH '$.type'
                         ,gjelder_kravhaver   VARCHAR2(255)   PATH '$.gjelderKravhaver'
-                        ,inntekt_type VARCHAR2(255)   PATH '$.inntektstype'
+                        ,inntekt_kategori VARCHAR2(255)   PATH '$.inntektstype'
                         ,inntekt_belop    NUMBER(16,2)    PATH '$.beløp'
 
                     )
@@ -41,12 +42,13 @@ mott as (
                 ,kravhaver varchar2(255 char) PATH '$.kravhaver'
                 ,mottaker varchar2(255 char) PATH '$.mottaker'
                 ,historisk_vedtak varchar2(255 char) PATH '$.historiskVedtak'
+                ,valuta_kode varchar2(5 char) PATH '$.valutakode'
 
                 ,nested PATH '$.mottakerInntektListe[*]'
                     columns(
-                        inntekt_kategori VARCHAR2(255)   PATH '$.type'
+                        type_inntekt VARCHAR2(255)   PATH '$.type'
                         ,gjelder_kravhaver   VARCHAR2(255)   PATH '$.gjelderKravhaver'
-                        ,inntekt_type VARCHAR2(255)   PATH '$.inntektstype'
+                        ,inntekt_kategori VARCHAR2(255)   PATH '$.inntektstype'
                         ,inntekt_belop    NUMBER(16,2)    PATH '$.beløp'
                     )
             )
@@ -68,12 +70,13 @@ krav as (
                 ,kravhaver varchar2(255 char) PATH '$.kravhaver'
                 ,mottaker varchar2(255 char) PATH '$.mottaker'
                 ,historisk_vedtak varchar2(255 char) PATH '$.historiskVedtak'
+                ,valuta_kode varchar2(5 char) PATH '$.valutakode'
 
                 ,nested PATH '$.kravhaverInntektListe[*]'
                     columns(
-                        inntekt_kategori VARCHAR2(255)   PATH '$.type'
+                        type_inntekt VARCHAR2(255)   PATH '$.type'
                         ,gjelder_kravhaver   VARCHAR2(255)   PATH '$.gjelderKravhaver'
-                        ,inntekt_type VARCHAR2(255)   PATH '$.inntektstype'
+                        ,inntekt_kategori VARCHAR2(255)   PATH '$.inntektstype'
                         ,inntekt_belop    NUMBER(16,2)    PATH '$.beløp'
                     )
             )
@@ -90,9 +93,10 @@ final as (
         ,kravhaver
         ,gjelder_kravhaver
         ,historisk_vedtak
+        ,type_inntekt
         ,inntekt_kategori
-        ,inntekt_type
-        ,'p' as inntekt_for -- p for pliktig/skyldner
+        ,'P' as inntekt_for -- p for pliktig/skyldner
+        ,valuta_kode
         ,inntekt_belop
     from skyld
  
@@ -105,9 +109,10 @@ final as (
         ,kravhaver
         ,gjelder_kravhaver
         ,historisk_vedtak
+        ,type_inntekt
         ,inntekt_kategori
-        ,inntekt_type
-        ,'m' as inntekt_for -- m for mottaker
+        ,'M' as inntekt_for -- m for mottaker
+        ,valuta_kode
         ,inntekt_belop
     from mott
 
@@ -120,9 +125,10 @@ final as (
         ,kravhaver
         ,gjelder_kravhaver
         ,historisk_vedtak
+        ,type_inntekt
         ,inntekt_kategori
-        ,inntekt_type
-        ,'k' as inntekt_for -- k for kravhaver
+        ,'K' as inntekt_for -- k for kravhaver
+        ,valuta_kode
         ,inntekt_belop
     from krav
 )
