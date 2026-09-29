@@ -4,13 +4,13 @@ models:
     description: "Tabell for inntekter knyttet til særbidragsvedtak."
     columns:
       - name: pk_bb_inntekt_saerbidrag
-        description: "#NAVN Primærnøkkel særbidrag inntekt #INNHOLD Unik nøkkel for tabellen. #NAVN_ENG Title DWH #INNHOLD_ENG Info"
+        description: "#NAVN Primærnøkkel særbidrag inntekt #INNHOLD Unik nøkkel for tabellen. #NAVN_EN Title DWH #INNHOLD_EN Info"
         tests:
           - not_null
           - unique
         data_type: raw
       - name: fk_bb_saerbidrag_fagsak
-        description: "#NAVN Fremmednøkkel særbidrag fagsak #INNHOLD Syntetisk fremmednøkkel mot særbidragstabellen for fagsak. #NAVN_ENG Title DWH #INNHOLD_ENG Info"
+        description: "#NAVN Fremmednøkkel særbidrag fagsak #INNHOLD Syntetisk fremmednøkkel mot særbidragstabellen for fagsak. #NAVN_EN Title DWH #INNHOLD_EN Info"
         tests:
           - not_null
           - relationships:
@@ -43,7 +43,7 @@ models:
         description: "#NAVN Inntekt gjelder for #INNHOLD Personen inntekten gjelder for, med verdiene p for pliktig, m for mottaker, k for kravhaver."
         data_type: char
       - name: inntekt_belop
-        description: "#NAVN Inntektsbeløp #INNHOLD Inntekt i beløp. #NAVN_ENG Title DWH #INNHOLD_ENG Info"
+        description: "#NAVN Inntektsbeløp #INNHOLD Inntekt i beløp. #NAVN_EN Title DWH #INNHOLD_EN Info"
         data_type: number
       - name: lastet_dato
         description:  '{{ doc("lastet_dato") }}'
@@ -53,7 +53,7 @@ models:
     description: "Tabell for særbidragsvedtak."
     columns:
       - name: pk_bb_saerbidrag_fagsak
-        description: "#NAVN Primærnøkkel særbidrag fagsak #INNHOLD Unik nøkkel for tabellen. #NAVN_ENG Title DWH #INNHOLD_ENG Info"
+        description: "#NAVN Primærnøkkel særbidrag fagsak #INNHOLD Unik nøkkel for tabellen. #NAVN_EN Title DWH #INNHOLD_EN Info"
         tests:
           - not_null
           - unique
@@ -62,10 +62,10 @@ models:
         description: '{{ doc("kafka_offset") }}'
         data_type: number
       - name: fk_bb_meta_data
-        description: "#NAVN Fremmednøkkel kildetabell #INNHOLD Syntetisk fremmednøkkel mot kildetabellen. #NAVN_ENG Title DWH #INNHOLD_ENG Info"
+        description: "#NAVN Fremmednøkkel kildetabell #INNHOLD Syntetisk fremmednøkkel mot kildetabellen. #NAVN_EN Title DWH #INNHOLD_EN Info"
         data_type: number
       - name: referanse
-        description: "#NAVN Vedtakenes referanse #INNHOLD Unik referanse for vedtaket. #NAVN_ENG Title DWH #INNHOLD_ENG Info"
+        description: "#NAVN Vedtakenes referanse #INNHOLD Unik referanse for vedtaket. #NAVN_EN Title DWH #INNHOLD_EN Info"
         data_type: varchar2
       - name: vedtaks_id
         description: '{{ doc("vedtaks_id") }}'
@@ -74,49 +74,49 @@ models:
         description: '{{ doc("vedtakstidspunkt") }}'
         data_type: timestamp(0)
       - name: behandlings_type
-        description: "#NAVN Vedtakets behandlingstype #INNHOLD Vedtakets type, for eksempel fastsettelse, endring eller klage. #NAVN_ENG Title DWH #INNHOLD_ENG Info"
+        description: "#NAVN Vedtakets behandlingstype #INNHOLD Vedtakets type, for eksempel fastsettelse, endring eller klage. #NAVN_EN Title DWH #INNHOLD_EN Info"
         data_type: varchar2
       - name: kategori
-        description: "#NAVN Kategori #INNHOLD Vedtakets kategori, for eksempel tannregulering. #NAVN_ENG Title DWH #INNHOLD_ENG Info"
+        description: "#NAVN Kategori #INNHOLD Vedtakets kategori, for eksempel tannregulering. #NAVN_EN Title DWH #INNHOLD_EN Info"
         data_type: varchar2
       - name: saksnr
         description: '{{ doc("saksnr") }}'
         data_type: varchar2
       - name: fk_person1_skyldner
-        description: "#NAVN Skyldners syntetiske nøkkel for dim_person #INNHOLD Syntetisk identifikator for skyldner. #NAVN_ENG Title DWH #INNHOLD_ENG Info"
+        description: "#NAVN Skyldners syntetiske nøkkel for dim_person #INNHOLD Syntetisk identifikator for skyldner. #NAVN_EN Title DWH #INNHOLD_EN Info"
         data_type: number
       - name: fk_person1_kravhaver
-        description: "#NAVN Kravhavers syntetiske nøkkel for dim_person #INNHOLD Syntetisk identifikator for kravhaver. #NAVN_ENG Title DWH #INNHOLD_ENG Info"
+        description: "#NAVN Kravhavers syntetiske nøkkel for dim_person #INNHOLD Syntetisk identifikator for kravhaver. #NAVN_EN Title DWH #INNHOLD_EN Info"
         data_type: number
       - name: fk_person1_mottaker
-        description: "#NAVN Mottakers syntetiske nøkkel for dim_person #INNHOLD Syntetisk identifikator for mottaker. #NAVN_ENG Title DWH #INNHOLD_ENG Info"
+        description: "#NAVN Mottakers syntetiske nøkkel for dim_person #INNHOLD Syntetisk identifikator for mottaker. #NAVN_EN Title DWH #INNHOLD_EN Info"
         data_type: number
       - name: belop
-        description: "#NAVN Beløp #INNHOLD Skyldners andel av godkjent beløp. #NAVN_ENG Title DWH #INNHOLD_ENG Info"
+        description: "#NAVN Beløp #INNHOLD Skyldners andel av godkjent beløp. #NAVN_EN Title DWH #INNHOLD_EN Info"
         data_type: number
       - name: valuta_kode
         description: '{{ doc("valuta_kode") }}'
         data_type: varchar2
       - name: resultat
-        description: "#NAVN Resultat #INNHOLD Vedtakets resultat, for eksempel innvilget eller avslag. #NAVN_ENG Title DWH #INNHOLD_ENG Info"
+        description: "#NAVN Resultat #INNHOLD Vedtakets resultat, for eksempel innvilget eller avslag. #NAVN_EN Title DWH #INNHOLD_EN Info"
         data_type: varchar2
       - name: innkreving_flagg
-        description: "#NAVN Innkrevingsflagg #INNHOLD Binær verdi som viser om vedtaket er registrert for innkreving via Skatt. #NAVN_ENG Title DWH #INNHOLD_ENG Info"
+        description: "#NAVN Innkrevingsflagg #INNHOLD Binær verdi som viser om vedtaket er registrert for innkreving via Skatt. #NAVN_EN Title DWH #INNHOLD_EN Info"
         data_type: number
       - name: omgjor_vedtaks_id
-        description: "#NAVN Omgjøringsvedtak ID #INNHOLD Vedtak som er omgjort av dette vedtaket. #NAVN_ENG Title DWH #INNHOLD_ENG Info"
+        description: "#NAVN Omgjøringsvedtak ID #INNHOLD Vedtak som er omgjort av dette vedtaket. #NAVN_EN Title DWH #INNHOLD_EN Info"
         data_type: varchar2
       - name: historisk_flagg
         description: '{{ doc("historisk_flagg") }}'
         data_type: number
       - name: krav_belop
-        description: "#NAVN Kravbeløp #INNHOLD Beløpet mottaker ba om. #NAVN_ENG Title DWH #INNHOLD_ENG Info"
+        description: "#NAVN Kravbeløp #INNHOLD Beløpet mottaker ba om. #NAVN_EN Title DWH #INNHOLD_EN Info"
         data_type: number
       - name: godkjent_belop
-        description: "#NAVN Godkjent beløp #INNHOLD Beløpet som ble godkjent av saksbehandler. #NAVN_ENG Title DWH #INNHOLD_ENG Info"
+        description: "#NAVN Godkjent beløp #INNHOLD Beløpet som ble godkjent av saksbehandler. #NAVN_EN Title DWH #INNHOLD_EN Info"
         data_type: number
       - name: betalt_belop
-        description: "#NAVN Betalt beløp #INNHOLD Beløpet som eventuelt er betalt tidligere av skyldner. #NAVN_ENG Title DWH #INNHOLD_ENG Info"
+        description: "#NAVN Betalt beløp #INNHOLD Beløpet som eventuelt er betalt tidligere av skyldner. #NAVN_EN Title DWH #INNHOLD_EN Info"
         data_type: number
       - name: lastet_dato
         description: '{{ doc("lastet_dato") }}'
