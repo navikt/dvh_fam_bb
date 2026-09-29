@@ -22,7 +22,7 @@ fagsak as (
         fagsak.behandlings_type,
         fagsak.vedtakstidspunkt, 
         fagsak.fk_person1_mottaker,
-        periode.pk_bb_forskudds_periode, 
+        periode.pk_bb_forskudd_periode, 
         periode.periode_fra, 
         periode.periode_til, 
         periode.belop,
@@ -30,7 +30,7 @@ fagsak as (
         periode.barnets_alders_gruppe,
         periode.antall_barn_i_egen_husstand,
         periode.sivilstand,
-        periode.barn_bor_med_bm,
+        periode.BARN_BOR_MED_MOTTAKER,
         tid.aar_maaned, 
         tid.siste_dato_i_perioden, 
         tid.aar, 
@@ -89,8 +89,8 @@ opphor_hvis_finnes as
     select aar_maaned, siste_dato_i_perioden, aar, fk_dim_tid_mnd
           ,fk_person1_kravhaver, fk_person1_mottaker
           ,vedtakstidspunkt, pk_bb_fagsak, saksnr, vedtaks_id, behandlings_type
-          ,pk_bb_forskudds_periode, periode_fra, periode_til, belop
-          ,resultat, barnets_alders_gruppe, antall_barn_i_egen_husstand, sivilstand, barn_bor_med_bm
+          ,pk_bb_forskudd_periode, periode_fra, periode_til, belop
+          ,resultat, barnets_alders_gruppe, antall_barn_i_egen_husstand, sivilstand, BARN_BOR_MED_MOTTAKER
           ,min(periode_fra_opphor) periode_fra_opphor
           ,forste_vedtakstidspunkt
     from siste_opphør
@@ -98,24 +98,24 @@ opphor_hvis_finnes as
     group by aar_maaned, siste_dato_i_perioden, aar, fk_dim_tid_mnd
             ,fk_person1_kravhaver, fk_person1_mottaker
             ,vedtakstidspunkt, pk_bb_fagsak, saksnr, vedtaks_id, behandlings_type
-            ,pk_bb_forskudds_periode, periode_fra, periode_til, belop
-            ,resultat, barnets_alders_gruppe, antall_barn_i_egen_husstand, sivilstand, barn_bor_med_bm
+            ,pk_bb_forskudd_periode, periode_fra, periode_til, belop
+            ,resultat, barnets_alders_gruppe, antall_barn_i_egen_husstand, sivilstand, BARN_BOR_MED_MOTTAKER
             ,forste_vedtakstidspunkt
 ),
 --Hent ut inntekt for aktuell fagsak
 --Det kan hende at siste versjon av vedtaket ikke har inntektsliste, derfor blir fagsak(inneholder alle versjoner) koblet opp, ikke siste(av vedtaket)
 inntekt as (
     select fagsak.*
-          ,inntekt.fk_bb_forskudds_periode
+          ,inntekt.fk_bb_forskudd_periode
           ,inntekt.type_inntekt, inntekt.inntekt as belop_inntekt
     from fagsak
     join {{ source ('fam_bb', 'fam_bb_inntekt') }} inntekt
-    on fagsak.pk_bb_forskudds_periode = inntekt.fk_bb_forskudds_periode
+    on fagsak.pk_bb_forskudd_periode = inntekt.fk_bb_forskudd_periode
 ),
 --Hent ut siste versjon av inntektsliste
 siste_inntekt as (
     select aar_maaned, fk_person1_kravhaver, saksnr
-          ,max(fk_bb_forskudds_periode) keep (dense_rank first order by vedtakstidspunkt desc) siste_inntekt_fk_bb_forskudds_periode --Versjonen som er fra siste vedtakstidspunkt
+          ,max(fk_bb_forskudd_periode) keep (dense_rank first order by vedtakstidspunkt desc) siste_inntekt_fk_bb_forskudd_periode --Versjonen som er fra siste vedtakstidspunkt
     from inntekt
     group by aar_maaned, fk_person1_kravhaver, saksnr
 ),
@@ -123,10 +123,10 @@ siste_inntekt as (
 --En periode kan ha flere typer av inntekt. Hent ut alle typer med sortert row_number.
 inntekt_detalj as (
     select inntekt.*
-          ,row_number() over (partition by pk_bb_forskudds_periode order by type_inntekt desc) nr_inntekt --Inntektstype-sortering fra en bestemt versjon, og UTVIDET_BARNETRYGD0 har høy prioritering
+          ,row_number() over (partition by pk_bb_forskudd_periode order by type_inntekt desc) nr_inntekt --Inntektstype-sortering fra en bestemt versjon, og UTVIDET_BARNETRYGD0 har høy prioritering
     from inntekt
     join siste_inntekt
-    on inntekt.pk_bb_forskudds_periode = siste_inntekt.siste_inntekt_fk_bb_forskudds_periode
+    on inntekt.pk_bb_forskudd_periode = siste_inntekt.siste_inntekt_fk_bb_forskudd_periode
 )
 ,
 --Pivotere ut inntekter til en linje per aar_maaned, fk_person1_kravhaver, saksnr
@@ -136,7 +136,7 @@ inntekts_typer as (
        ,vedtakstidspunkt as siste_inntekt_vedtakstidspunkt
        ,resultat as siste_inntekt_resultat, barnets_alders_gruppe as siste_inntekt_barnets_alders_gruppe
        ,antall_barn_i_egen_husstand as siste_inntekt_antall_barn_i_egen_husstand
-       ,sivilstand as siste_inntekt_sivilstand, barn_bor_med_bm as siste_inntekt_barn_bor_med_bm
+       ,sivilstand as siste_inntekt_sivilstand, BARN_BOR_MED_MOTTAKER as siste_inntekt_BARN_BOR_MED_MOTTAKER
        ,max(case when nr_inntekt=1 then type_inntekt end) type_inntekt_1
        ,max(case when nr_inntekt=1 then belop_inntekt end) inntekt_1
        ,max(case when nr_inntekt=2 then type_inntekt end) type_inntekt_2
@@ -150,7 +150,7 @@ inntekts_typer as (
     from inntekt_detalj
     group by aar_maaned, fk_person1_kravhaver, saksnr
             ,resultat, barnets_alders_gruppe, antall_barn_i_egen_husstand
-            ,sivilstand, barn_bor_med_bm
+            ,sivilstand, BARN_BOR_MED_MOTTAKER
             ,vedtakstidspunkt
 )
 ,
@@ -159,16 +159,16 @@ periode_uten_opphort as (
  
     select vedtak.aar_maaned, vedtak.fk_person1_kravhaver, vedtak.fk_person1_mottaker, vedtak.vedtakstidspunkt
           ,vedtak.pk_bb_fagsak as fk_bb_fagsak, vedtak.saksnr
-          ,vedtak.vedtaks_id, vedtak.behandlings_type, vedtak.pk_bb_forskudds_periode as fk_bb_forskudds_periode
+          ,vedtak.vedtaks_id, vedtak.behandlings_type, vedtak.pk_bb_forskudd_periode as fk_bb_forskudds_periode
           ,vedtak.periode_fra, vedtak.periode_til, vedtak.belop
-          --Hent ut resultat, barnets_alders_gruppe, antall_barn_i_egen_husstand, sivilstand, barn_bor_med_bm
+          --Hent ut resultat, barnets_alders_gruppe, antall_barn_i_egen_husstand, sivilstand, BARN_BOR_MED_MOTTAKER
           --fra siste versjon av inntekt. Hvis inntekt ikke finnes, returneres disse feltene fra siste versjon av vedtaket
           ,inntekts_typer.siste_inntekt_vedtakstidspunkt
           ,nvl(vedtak.resultat, inntekts_typer.siste_inntekt_resultat) as resultat --Prioritere resultat fra siste versjon
           ,nvl(inntekts_typer.siste_inntekt_barnets_alders_gruppe, vedtak.barnets_alders_gruppe) as barnets_alders_gruppe
           ,nvl(inntekts_typer.siste_inntekt_antall_barn_i_egen_husstand, vedtak.antall_barn_i_egen_husstand) as antall_barn_i_egen_husstand
           ,nvl(inntekts_typer.siste_inntekt_sivilstand, vedtak.sivilstand) as sivilstand
-          ,nvl(inntekts_typer.siste_inntekt_barn_bor_med_bm, vedtak.barn_bor_med_bm) as barn_bor_med_bm
+          ,nvl(inntekts_typer.siste_inntekt_BARN_BOR_MED_MOTTAKER, vedtak.BARN_BOR_MED_MOTTAKER) as BARN_BOR_MED_MOTTAKER
           --
           ,vedtak.periode_fra_opphor, vedtak.aar
           --,TO_DATE(TO_CHAR(LAST_DAY(SYSDATE), 'YYYYMMDD'), 'YYYYMMDD') MAX_VEDTAKSDATO --Input max_vedtaksdato
@@ -241,7 +241,7 @@ select
    ,fk_dim_geografi_bosted_mottaker, alder_mottaker, inntekt_total, antall_inntekts_typer
    ,gyldig_flagg, lastet_dato, inntekt_1, inntekt_2, inntekt_3, inntekt_4, saksnr, behandlings_type
    ,resultat, barnets_alders_gruppe, type_inntekt_1, type_inntekt_2, type_inntekt_3, type_inntekt_4
-   ,kjonn_kravhaver, kjonn_mottaker,antall_barn_i_egen_husstand, sivilstand, barn_bor_med_bm
+   ,kjonn_kravhaver, kjonn_mottaker,antall_barn_i_egen_husstand, sivilstand, BARN_BOR_MED_MOTTAKER as BARN_BOR_MED_BM
    ,siste_inntekt_vedtakstidspunkt, forste_vedtakstidspunkt, bosted_land_mottaker
    ,gt_verdi_mottaker, getitype_mottaker, bosted_land_kravhaver, gt_verdi_kravhaver
    ,getitype_kravhaver, bosted_kommune_nr_kravhaver

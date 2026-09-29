@@ -1,60 +1,60 @@
 with inntekt AS (
     SELECT  
-        FK_BB_BIDRAGS_PERIODE,
+        FK_BB_BIDRAG_PERIODE,
         TYPE_INNTEKT,
-        BELOP,
-        flagg,
-        ROW_NUMBER() OVER (PARTITION BY FK_BB_BIDRAGS_PERIODE, flagg ORDER BY TYPE_INNTEKT) AS NR
+        INNTEKT,
+        inntekt_for,
+        ROW_NUMBER() OVER (PARTITION BY FK_BB_BIDRAG_PERIODE, inntekt_for ORDER BY TYPE_INNTEKT) AS NR
     FROM {{ source ('fam_bb', 'fam_bb_inntekt_ord') }}
 ),
 
 inntekts_typer as (
 				   
 SELECT
-        FK_BB_BIDRAGS_PERIODE,
-        MAX(CASE WHEN NR = 1 AND flagg = 'P' THEN TYPE_INNTEKT END) AS P_TYPE_INNTEKT_1,
-        MAX(CASE WHEN NR = 1 AND flagg = 'P' THEN BELOP END) AS P_INNTEKT_1,
-        MAX(CASE WHEN NR = 2 AND flagg = 'P' THEN TYPE_INNTEKT END) AS P_TYPE_INNTEKT_2,
-        MAX(CASE WHEN NR = 2 AND flagg = 'P' THEN BELOP END) AS P_INNTEKT_2,
-        MAX(CASE WHEN NR = 3 AND flagg = 'P' THEN TYPE_INNTEKT END) AS P_TYPE_INNTEKT_3,
-        MAX(CASE WHEN NR = 3 AND flagg = 'P' THEN BELOP END) AS P_INNTEKT_3,																										
+        FK_BB_BIDRAG_PERIODE,
+        MAX(CASE WHEN NR = 1 AND inntekt_for = 'P' THEN TYPE_INNTEKT END) AS P_TYPE_INNTEKT_1,
+        MAX(CASE WHEN NR = 1 AND inntekt_for = 'P' THEN INNTEKT END) AS P_INNTEKT_1,
+        MAX(CASE WHEN NR = 2 AND inntekt_for = 'P' THEN TYPE_INNTEKT END) AS P_TYPE_INNTEKT_2,
+        MAX(CASE WHEN NR = 2 AND inntekt_for = 'P' THEN INNTEKT END) AS P_INNTEKT_2,
+        MAX(CASE WHEN NR = 3 AND inntekt_for = 'P' THEN TYPE_INNTEKT END) AS P_TYPE_INNTEKT_3,
+        MAX(CASE WHEN NR = 3 AND inntekt_for = 'P' THEN INNTEKT END) AS P_INNTEKT_3,																										
         
-        MAX(CASE WHEN NR = 1 AND flagg = 'M' THEN TYPE_INNTEKT END) AS M_TYPE_INNTEKT_1,
-        MAX(CASE WHEN NR = 1 AND flagg = 'M' THEN BELOP END) AS M_INNTEKT_1,
-        MAX(CASE WHEN NR = 2 AND flagg = 'M' THEN TYPE_INNTEKT END) AS M_TYPE_INNTEKT_2,
-        MAX(CASE WHEN NR = 2 AND flagg = 'M' THEN BELOP END) AS M_INNTEKT_2,
-        MAX(CASE WHEN NR = 3 AND flagg = 'M' THEN TYPE_INNTEKT END) AS M_TYPE_INNTEKT_3,
-        MAX(CASE WHEN NR = 3 AND flagg = 'M' THEN BELOP END) AS M_INNTEKT_3,
-        MAX(CASE WHEN NR = 4 AND flagg = 'M' THEN TYPE_INNTEKT END) AS M_TYPE_INNTEKT_4,
-        MAX(CASE WHEN NR = 4 AND flagg = 'M' THEN BELOP END) AS M_INNTEKT_4,
-        MAX(CASE WHEN NR = 5 AND flagg = 'M' THEN TYPE_INNTEKT END) AS M_TYPE_INNTEKT_5,
-        MAX(CASE WHEN NR = 5 AND flagg = 'M' THEN BELOP END) AS M_INNTEKT_5,
+        MAX(CASE WHEN NR = 1 AND inntekt_for = 'M' THEN TYPE_INNTEKT END) AS M_TYPE_INNTEKT_1,
+        MAX(CASE WHEN NR = 1 AND inntekt_for = 'M' THEN INNTEKT END) AS M_INNTEKT_1,
+        MAX(CASE WHEN NR = 2 AND inntekt_for = 'M' THEN TYPE_INNTEKT END) AS M_TYPE_INNTEKT_2,
+        MAX(CASE WHEN NR = 2 AND inntekt_for = 'M' THEN INNTEKT END) AS M_INNTEKT_2,
+        MAX(CASE WHEN NR = 3 AND inntekt_for = 'M' THEN TYPE_INNTEKT END) AS M_TYPE_INNTEKT_3,
+        MAX(CASE WHEN NR = 3 AND inntekt_for = 'M' THEN INNTEKT END) AS M_INNTEKT_3,
+        MAX(CASE WHEN NR = 4 AND inntekt_for = 'M' THEN TYPE_INNTEKT END) AS M_TYPE_INNTEKT_4,
+        MAX(CASE WHEN NR = 4 AND inntekt_for = 'M' THEN INNTEKT END) AS M_INNTEKT_4,
+        MAX(CASE WHEN NR = 5 AND inntekt_for = 'M' THEN TYPE_INNTEKT END) AS M_TYPE_INNTEKT_5,
+        MAX(CASE WHEN NR = 5 AND inntekt_for = 'M' THEN INNTEKT END) AS M_INNTEKT_5,
 
-        SUM(CASE WHEN flagg = 'P' THEN BELOP ELSE 0 END) AS P_INNTEKT_TOTAL,
-        MAX(CASE WHEN flagg = 'P' THEN NR ELSE 0 END) AS P_ANTALL_TYPER,
+        SUM(CASE WHEN inntekt_for = 'P' THEN INNTEKT ELSE 0 END) AS P_INNTEKT_TOTAL,
+        MAX(CASE WHEN inntekt_for = 'P' THEN NR ELSE 0 END) AS P_ANTALL_TYPER,
 
-        SUM(CASE WHEN flagg = 'M' THEN BELOP ELSE 0 END) AS M_INNTEKT_TOTAL,
-        MAX(CASE WHEN flagg = 'M' THEN NR ELSE 0 END) AS M_ANTALL_TYPER
+        SUM(CASE WHEN inntekt_for = 'M' THEN INNTEKT ELSE 0 END) AS M_INNTEKT_TOTAL,
+        MAX(CASE WHEN inntekt_for = 'M' THEN NR ELSE 0 END) AS M_ANTALL_TYPER
 
     FROM INNTEKT
-    GROUP BY FK_BB_BIDRAGS_PERIODE
+    GROUP BY FK_BB_BIDRAG_PERIODE
 ),
 
 fagsak_inntekt as (
   select
     i.*,
-    f.PK_BB_BIDRAGS_PERIODE,
+    f.PK_BB_BIDRAG_PERIODE,
     f.vedtakstidspunkt,
 	f.saksnr, f.fk_person1_kravhaver	
 
   from {{ ref ('fagsak_bidrag') }} f
   left join inntekts_typer i
-  on f.PK_BB_BIDRAGS_PERIODE = i.FK_BB_BIDRAGS_PERIODE
+  on f.PK_BB_BIDRAG_PERIODE = i.FK_BB_BIDRAG_PERIODE
 ),
 
 inntekt_fylt_verdier as (
     SELECT
-        FK_BB_BIDRAGS_PERIODE,
+        FK_BB_BIDRAG_PERIODE,
         P_INNTEKT_TOTAL, P_ANTALL_TYPER,
         M_INNTEKT_TOTAL, M_ANTALL_TYPER,
 		saksnr,fk_person1_kravhaver, vedtakstidspunkt, 

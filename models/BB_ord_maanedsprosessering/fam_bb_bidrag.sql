@@ -9,7 +9,9 @@ with periode_uten_opphort as (
  
   select aar_maaned, vedtak.fk_person1_kravhaver, fk_person1_mottaker, fk_person1_skyldner, vedtak.vedtakstidspunkt
         ,pk_bb_fagsak as fk_bb_fagsak, vedtak.saksnr
-        ,vedtaks_id, behandlings_type, pk_bb_bidrags_periode as fk_bb_bidrags_periode
+					   
+        ,vedtaks_id, behandlings_type, pk_bb_bidrag_periode as fk_bb_bidrags_periode
+													  
         ,periode_fra, periode_til, belop as belop_vedtak
         ,resultat,resultat_tekst,forste_vedtakstidspunkt
         ,periode_fra_opphor, aar, vedtak.STONADSTYPE, NETTO_TILSYNSUTGIFT, FAKTISK_TILSYNSUTGIFT, INNKREVING_FLAGG
@@ -97,14 +99,14 @@ with periode_uten_opphort as (
 
   --left join {{ ref("inntekt_bidrag") }} inntekts_typer
 
-  --on vedtak.pK_BB_BIDRAGS_PERIODE = inntekts_typer.FK_BB_BIDRAGS_PERIODE
+  --on vedtak.pK_BB_BIDRAGS_PERIODE = inntekts_typer.FK_BB_BIDRAG_PERIODE
 
   left join (
   select * from (
     select i.*,
             ROW_NUMBER() OVER (PARTITION BY i.saksnr, i.fk_person1_kravhaver--, i.stonadstype
             ORDER BY 
-                CASE WHEN i.fk_bb_bidrags_periode IS NOT NULL THEN 0 ELSE 1 END,
+                CASE WHEN i.fk_bb_bidrag_periode IS NOT NULL THEN 0 ELSE 1 END,
                     i.vedtakstidspunkt DESC) AS rn
     from {{ ref("inntekt_bidrag") }} i
   ) inntekt
