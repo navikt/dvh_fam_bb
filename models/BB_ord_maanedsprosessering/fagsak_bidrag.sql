@@ -26,7 +26,7 @@ fagsak as (
     fagsak.fk_person1_mottaker,
     fagsak.fk_person1_skyldner, 
 
-    periode.pk_bb_bidrags_periode, 
+    periode.pk_bb_bidrag_periode, 
     periode.periode_fra,
     periode.periode_til,
     periode.belop,
@@ -49,8 +49,10 @@ fagsak as (
     tid.siste_dato_i_perioden,
     tid.aar,
     tid.pk_dim_tid as fk_dim_tid_mnd,
-    row_number() over (partition by tid.aar_maaned, decode(fagsak.fk_person1_kravhaver,-1,ident_krav.fk_person1,fagsak.fk_person1_kravhaver) ,fagsak.saksnr, fagsak.stonadstype
-            order by fagsak.vedtakstidspunkt desc, periode.belop desc) nr,
+    --row_number() over (partition by tid.aar_maaned, decode(fagsak.fk_person1_kravhaver,-1,ident_krav.fk_person1,fagsak.fk_person1_kravhaver) ,fagsak.saksnr, fagsak.stonadstype
+    --        order by fagsak.vedtakstidspunkt desc, periode.belop desc) nr,
+    row_number() over (partition by tid.aar_maaned, fagsak.fk_person1_kravhaver, fagsak.saksnr, fagsak.stonadstype
+              order by fagsak.vedtakstidspunkt desc, periode.belop desc) nr,
     min(fagsak.vedtakstidspunkt) over (partition by tid.aar_maaned, fagsak.fk_person1_kravhaver ,fagsak.saksnr) forste_vedtakstidspunkt--,
    -- last_value(innkreving_flagg) over (partition by tid.aar_maaned, decode(fagsak.fk_person1_kravhaver,-1,ident_krav.fk_person1,fagsak.fk_person1_kravhaver) ,fagsak.saksnr, fagsak.stonadstype
     --        order by fagsak.vedtakstidspunkt desc, periode.belop desc) t
@@ -68,12 +70,12 @@ fagsak as (
 
   left join {{ source ('fam_bb', 'fam_bb_bidrag_resultat_mapping') }}  resultat
   on periode.resultat = resultat.resultat_fra
-
+/*
   left join {{ source ('person', 'ident_off_id_til_fk_person1') }} ident_krav
   on fagsak.fnr_kravhaver = ident_krav.off_id
   and fagsak.fk_person1_kravhaver = -1
   and tid.siste_dato_i_perioden between ident_krav.gyldig_fra_dato and ident_krav.gyldig_til_dato
-
+*/
   where fagsak.behandlings_type not in ('ENDRING_MOTTAKER', 'OPPHØR', 'ALDERSOPPHØR')
   and trunc(fagsak.vedtakstidspunkt, 'dd') <= TO_DATE('{{ var ("max_vedtaksdato") }}', 'yyyymmdd')
   and fagsak.INNKREVING_FLAGG = '1'
@@ -82,7 +84,7 @@ fagsak as (
 fagsak_fylt_verdier as (
   select
     f.pk_bb_fagsak, f.behandlings_type, f.saksnr, f.innkreving_flagg, f.stonadstype,
-    f.fk_person1_kravhaver, f.fk_person1_mottaker, f.fk_person1_skyldner, f.pk_bb_bidrags_periode,
+    f.fk_person1_kravhaver, f.fk_person1_mottaker, f.fk_person1_skyldner, f.pk_bb_bidrag_periode,
     f.periode_fra, f.periode_til, f.belop, f.valutakode, f.aar_maaned, f.siste_dato_i_perioden,
     f.aar, f.fk_dim_tid_mnd, f.nr, f.vedtakstidspunkt, f.vedtaks_id,forste_vedtakstidspunkt,
 
