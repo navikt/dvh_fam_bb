@@ -21,7 +21,6 @@ final as (
         ,type_inntekt
         ,inntekt_kategori
         ,inntekt_for
-        ,valuta_kode
         ,inntekt_belop
         ,localtimestamp as lastet_dato 
     from sb_inn

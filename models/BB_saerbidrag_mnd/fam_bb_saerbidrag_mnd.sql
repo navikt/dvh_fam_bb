@@ -11,7 +11,8 @@ Hvis et omgjøringsvedtak peker på et vedtak som har beløp NULL, skal ikke omg
 */
 
 with fag as (
-    select t1.* from {{ref ('fam_bb_saerbidrag_fagsak')}} t1
+    select t1.* 
+    from {{ref ('fam_bb_saerbidrag_fagsak')}} t1
     left join (select omgjor.vedtaks_id
     ,omgjor.fk_person1_kravhaver
     ,omgjor.saksnr
@@ -72,14 +73,14 @@ inntekt as (
     FROM ( 
         SELECT
             fk_bb_saerbidrag_fagsak as key_fak_bb_saerbidrag,
-            inntekt_kategori,
+            type_inntekt,
             inntekt_for,
             inntekt_belop
         FROM {{ ref('fam_bb_saerbidrag_inntekt') }}
     )
     PIVOT ( 
         SUM(inntekt_belop) as totalt,
-        COUNT(DISTINCT inntekt_kategori) AS antall_typer  
+        COUNT(DISTINCT type_inntekt) AS antall_typer  
         FOR inntekt_for IN ( 
             'M' AS inntekt_mottaker,
             'P' AS inntekt_skyldner,
@@ -184,7 +185,7 @@ vedtak as (
         ,t1.krav_belop
         ,t1.godkjent_belop
         ,t1.betalt_belop
-        ,t1.belop_nok
+        ,case when t1.belop_nok is null then 0 else t1.belop_nok end as belop_nok
         ,t1.krav_belop_nok
         ,t1.godkjent_belop_nok
         ,t1.betalt_belop_nok
