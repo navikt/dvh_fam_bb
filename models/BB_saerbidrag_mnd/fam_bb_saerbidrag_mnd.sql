@@ -11,7 +11,8 @@ Hvis et omgjøringsvedtak peker på et vedtak som har beløp NULL, skal ikke omg
 */
 
 with fag as (
-    select t1.* from {{ref ('fam_bb_saerbidrag_fagsak')}} t1
+    select t1.* 
+    from {{ref ('fam_bb_saerbidrag_fagsak')}} t1
     left join (select omgjor.vedtaks_id
     ,omgjor.fk_person1_kravhaver
     ,omgjor.saksnr
