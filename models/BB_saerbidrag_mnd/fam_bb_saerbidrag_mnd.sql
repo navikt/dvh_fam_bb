@@ -184,7 +184,7 @@ vedtak as (
         ,t1.krav_belop
         ,t1.godkjent_belop
         ,t1.betalt_belop
-        ,t1.belop_nok
+        ,case when t1.belop_nok is null then 0 else t1.belop_nok end as belop_nok
         ,t1.krav_belop_nok
         ,t1.godkjent_belop_nok
         ,t1.betalt_belop_nok

@@ -33,8 +33,6 @@ models:
       - name: historisk_flagg
         description: '{{ doc("historisk_flagg") }}'
         data_type: number
-      - name: valuta_kode
-        description: "#NAVN Valuta #INNHOLD Valutakode for innteksbeløpene. #NAVN_ENG Title DWH #INNHOLD_ENG Info"
       - name: inntekt_kategori
         description: "#NAVN Inntektskategori #INNHOLD Inntektens kategori."
         data_type: varchar2
