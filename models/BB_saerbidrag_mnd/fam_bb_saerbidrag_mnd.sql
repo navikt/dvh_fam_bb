@@ -342,6 +342,10 @@ final as (
 
 /* 
 Slutt-tabellen tar med alle kolonner, gyldig_flagg og lastet_dato.
+Særbidrag har svært få rader, ca 50 000 ved utviklingsstadiet, for data som strekker seg tilbake over ett tiår.
+Det ble derfor valgt i oppsettet å ikke overkomplisere kjøringen. Filtreringen for inkrementell last gjøres derfor i siste steg.
+For å forbedre kjøretid (original kjøretid er på ca 4 min, og kjøringen er forventet å kjøre 1 gang per måned), kunne en ekstra CTE vært
+lagt på toppen i dette skriptet, for å filtrere ut aktuell periode, samt alle omgjøringsvedtak knyttet til disse. 
 */
 
 select final.*
