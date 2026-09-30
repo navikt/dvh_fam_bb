@@ -8,6 +8,7 @@ final as (
     select 
     KEY_FAK_BB_SAERBIDRAG,
     VEDTAKS_ID,
+    aar_mnd,
     SAKSNR,
     VEDTAKSTIDSPUNKT,
     TYPE_INNTEKT,

@@ -1,9 +1,10 @@
 {{
     config(
-        materialized='table'
+        materialized='incremental',
+        unique_key = ['aar_maaned', 'gyldig_flagg'],
+        incremental_strategy='delete+insert'
     )
 }}
-
 /* 
 Henter alle inntekter.
 */
@@ -24,6 +25,7 @@ FROM (
     saksnr,
     vedtaks_id,
     vedtakstidspunkt,
+    TO_CHAR(vedtakstidspunkt, 'yyyymm') as aar_maaned,
     type_inntekt,
     inntekt_kategori,
     inntekt_for,
@@ -51,6 +53,7 @@ select
     vedtaks_id,
     saksnr,
     vedtakstidspunkt,
+    aar_maaned,
     type_inntekt,
     inntekt_kategori,
     inntekt_mottaker,
@@ -60,3 +63,4 @@ select
     mart_lastet_dato,
     localtimestamp as lastet_dato  
  from inn_piv
+ where aar_maaned = '{{ var("periode") }}'

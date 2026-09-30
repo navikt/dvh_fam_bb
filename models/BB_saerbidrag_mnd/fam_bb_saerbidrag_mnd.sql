@@ -1,6 +1,8 @@
 {{
     config(
-        materialized='table'
+        materialized='incremental',
+        unique_key = ['aar_maaned', 'gyldig_flagg'],
+        incremental_strategy='delete+insert'
     )
 }}
 
@@ -346,3 +348,5 @@ select final.*
 ,'{{ var("gyldig_flagg") }}'  as gyldig_flagg
 ,localtimestamp as lastet_dato  
 from final
+where aar_maaned = '{{ var("periode") }}'
+
