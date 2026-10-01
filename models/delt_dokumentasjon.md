@@ -1,9 +1,9 @@
 {% docs historisk_flagg %}
-#NAVN Tittel #INNHOLD Binær verdi som viser vedtakets systemtilknytning. Hvis 1 er det snakk om eldre fagsystem. #NAVN_EN Title DWH #INNHOLD_EN Info
+#NAVN Historisk flagg #INNHOLD Binær verdi som viser vedtakets systemtilknytning. Hvis 1 er det snakk om eldre fagsystem. #NAVN_EN Historic flag #INNHOLD_EN Binary flag that shows the letter of decisions original (old/new) source system.
 {% enddocs %}
 
 {% docs kafka_offset %}
-#NAVN Tittel #INNHOLD Kafka-kø sekvensnummer. #NAVN_EN Title DWH #INNHOLD_EN Info
+#NAVN Kafka offset #INNHOLD Kafka-kø sekvensnummer. #NAVN_EN Kafka offset #INNHOLD_EN Kafka queue sequence number.
 {% enddocs %}
 
 {% docs lastet_dato %}
@@ -11,23 +11,23 @@
 {% enddocs %}
 
 {% docs mart_lastet_dato %}
-#NAVN Tittel #INNHOLD Data lastet inn i mart-tabellen i datavarehuset. #NAVN_EN Title DWH #INNHOLD_EN Info
+#NAVN Lastet dato mart #INNHOLD Dato for data lastet inn i mart-tabellen i datavarehuset. #NAVN_EN Loaded date mart #INNHOLD_EN Date for data loadid into the mart table in DWH.
 {% enddocs %}
 
 {% docs saksnr %}
-#NAVN Tittel #INNHOLD Saksnummeret vedtaket er en del av. #NAVN_EN Title DWH #INNHOLD_EN Info
+#NAVN Saksnr #INNHOLD Saksnummeret vedtaket er en del av. #NAVN_EN Case number #INNHOLD_EN Case number for the letter of decision.
 {% enddocs %}
 
 {% docs valuta_kode %}
-#NAVN Tittel #INNHOLD Valutakoden tilknyttet beløpet. #NAVN_EN Title DWH #INNHOLD_EN Info
+#NAVN Valutakode #INNHOLD ISO Valutakode tilknyttet beløpet. #NAVN_EN Currency code #INNHOLD_EN The ISO currency code tied to the monetary amount.
 {% enddocs %}
 
 {% docs vedtaks_id %}
-#NAVN Tittel #INNHOLD Vedtakets ID. #NAVN_EN Title DWH #INNHOLD_EN Info
+#NAVN VedtaksID #INNHOLD Vedtakets ID. #NAVN_EN Decision id #INNHOLD_EN Letter of decision id.
 {% enddocs %}
 
 {% docs vedtakstidspunkt %}
-#NAVN Tittel #INNHOLD Vedtakets tidspunkt. #NAVN_EN Title DWH #INNHOLD_EN Info
+#NAVN Vedtakstidspunkt #INNHOLD Vedtakets tidspunkt. #NAVN_EN Decision datetime #INNHOLD_EN Letter of decision datetime.
 {% enddocs %}
 
 
