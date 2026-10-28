@@ -3,3 +3,7 @@ models:
     columns:
       - name: lastet_dato
         description:  '{{ doc("lastet_dato") }}'
+  - name: obt_særbidrag
+    columns:
+      - name: lastet_dato
+        description:  '{{ doc("lastet_dato") }}'

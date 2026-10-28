@@ -22,6 +22,7 @@ select
     ,t2.fylke_nr_navn
     ,t2.fylke_gruppe_nr
     ,t2.fylke_gruppe_besk
+    ,t2.navarende_fylke_navn
     ,t2.kommune_nr
     ,t2.kommune_navn
     ,t2.kommune_nr_navn
@@ -35,9 +36,10 @@ select
     ,t3.kjonn_flertall_besk
     ,t4.pk_dim_alder as fk_dim_alder
     ,t4.alder
-    ,t4.ti_aar_gruppe_besk
-    ,t4.alder_gruppe5_besk
+    ,t4.alder_gruppe1_besk
     ,t4.alder_gruppe7_besk
+    ,t4.alder_gruppe5_besk
+    ,t4.ti_aar_gruppe_besk
 from {{ source ('kode_verk', 'dim_tid') }} t1
 CROSS JOIN  {{ source ('kode_verk', 'dim_geografi') }} t2
 CROSS JOIN {{ source ('kode_verk', 'dim_kjonn') }} t3
@@ -45,6 +47,8 @@ CROSS JOIN {{ source ('kode_verk', 'dim_alder') }} t4
 where t1.gyldig_flagg = 1
 and t2.gyldig_flagg = 1
 and t3.gyldig_flagg = 1
+and t3.dim_nivaa = 1  
 and t4.gyldig_flagg = 1
-and  t1.dim_nivaa = 3 
-and t1.aar = '2026' 
+and t1.dim_nivaa = 3 
+and t1.maaned in (3,6,9,12)
+and t1.aar >= '2017'and t1.aar <= TO_CHAR(SYSDATE, 'YYYY')
