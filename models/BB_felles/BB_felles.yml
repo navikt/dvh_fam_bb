@@ -22,14 +22,14 @@ models:
       - name: aar_halvaar_besk_kort
       - name: aar_halvaar_besk
       - name: fk_dim_geografi   
-      - name: fylke_nr
-      - name: fylke_navn
-      - name: fylke_nr_navn
+      - name: navarende_fylke_nr
+      - name: navarende_fylke_navn
+      - name: navarende_fylke_nr_navn
       - name: fylke_gruppe_nr
       - name: fylke_gruppe_besk
-      - name: kommune_nr
-      - name: kommune_navn
-      - name: kommune_nr_navn
+      - name: navarende_kommune_nr
+      - name: navarende_kommune_navn
+      - name: navarende_kommune_nr_navn
       - name: kommune_gruppe_nr
       - name: kommune_gruppe_besk
       - name: bydel_nr
