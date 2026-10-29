@@ -123,7 +123,16 @@ final as (
         s.bidrag_antall_skyldnere,
         m.bidrag_antall_mottakere,
         k.bidrag_antall_kravhavere,
-        fm.forskudd_antall_mottakere
+        fm.forskudd_antall_mottakere,
+        case
+            when t1.ALDER_GRUPPE1_BESK IN ('19 år og under','20-24 år') then 'Under 25 år'
+            when t1.ALDER_GRUPPE1_BESK = '25-29 år' then '25-29 år'
+            when t1.ALDER_GRUPPE1_BESK = '30-34 år' then '30-34 år'
+            when t1.ALDER_GRUPPE1_BESK = '35-39 år' then '35-39 år'
+            when t1.ALDER_GRUPPE1_BESK = '40-44 år' then '40-44 år'
+            when t1.ALDER_GRUPPE1_BESK IN ('45-49 år','50-54 år','55-59 år','60-64 år','65-69 år','70-74 år','75-79 år','80-84 år', '85-89 år', '90 år og over') then '45 år+'
+            else 'Uoppgitt'
+        end as alder_gruppe_bidrag
 
     from {{ ref('dim_skjelett') }} t1
 
