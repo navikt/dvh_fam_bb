@@ -132,7 +132,7 @@ final as (
             when t1.ALDER_GRUPPE1_BESK = '40-44 år' then '40-44 år'
             when t1.ALDER_GRUPPE1_BESK IN ('45-49 år','50-54 år','55-59 år','60-64 år','65-69 år','70-74 år','75-79 år','80-84 år', '85-89 år', '90 år og over') then '45 år+'
             else 'Uoppgitt'
-        end as alder_gruppe_bidrag
+        end as alder_gruppe_bidrag 
 
     from {{ ref('dim_skjelett') }} t1
 
