@@ -7,7 +7,7 @@ models:
       - name: alder_gruppe5_besk        
       - name: alder_gruppe7_besk
 
-  - name: dim_bredt_aggregat_mnd
+  - name: dim_skjelett
     columns:
       - name: fk_dim_tid
       - name: aar
@@ -22,23 +22,31 @@ models:
       - name: aar_halvaar_besk_kort
       - name: aar_halvaar_besk
       - name: fk_dim_geografi   
-      - name: fylke_nr
-      - name: fylke_navn
-      - name: fylke_nr_navn
+      - name: navarende_fylke_nr
+      - name: navarende_fylke_navn
+      - name: navarende_fylke_nr_navn
       - name: fylke_gruppe_nr
       - name: fylke_gruppe_besk
-      - name: kommune_nr
-      - name: kommune_navn
-      - name: kommune_nr_navn
+      - name: navarende_kommune_nr
+      - name: navarende_kommune_navn
+      - name: navarende_kommune_nr_navn
       - name: kommune_gruppe_nr
       - name: kommune_gruppe_besk
       - name: bydel_nr
       - name: bydel_navn
+      - name: navarende_fylke_navn
       - name: fk_dim_kjonn
       - name: kjonn_kode
       - name: kjonn_flertall_besk
+      - name: fk_dim_alder
+      - name: alder
+      - name: alder_gruppe1_besk
+      - name: ti_aar_gruppe_besk
+      - name: alder_gruppe5_besk
+      - name: alder_gruppe7_besk
 
-  - name: dim_person_felter
+
+  - name: dim_person_keys
     columns:
       - name: fk_person1
       - name: fk_dim_person
@@ -62,6 +70,8 @@ models:
       - name: fk_dim_kjonn
       - name: kjonn_kode
       - name: kjonn_flertall_besk
+      - name: navarende_fylke_navn
+
 
 
   - name: dim_person_fodt

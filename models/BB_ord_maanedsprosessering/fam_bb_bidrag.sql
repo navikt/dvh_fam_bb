@@ -22,6 +22,8 @@ with periode_uten_opphort as (
         ,fk_dim_tid_mnd
         ,'{{ var ("periode_type") }}' periode_type --Input periode_type
         ,dim_kravhaver.pk_dim_person as fk_dim_person_kravhaver
+        ,dim_kravhaver.fk_dim_kjonn as kravhaver_fk_dim_kjonn
+        ,dim_kravhaver.fk_dim_geografi_bosted as fk_dim_geografi_bosted_kravhaver
         ,floor(months_between(vedtak.siste_dato_i_perioden, dim_kravhaver.fodt_dato)/12) alder_kravhaver
         
         ,case 
@@ -45,6 +47,7 @@ with periode_uten_opphort as (
         ,SISTE_KOMPLETT_VEDTAKSTIDSPUNKT
         
         ,dim_mottaker.pk_dim_person as fk_dim_person_mottaker
+        ,dim_mottaker.fk_dim_kjonn as mottaker_fk_dim_kjonn
         ,case 
             when dim_mottaker.kjonn_nr = 1 then 'M'
             when dim_mottaker.kjonn_nr = 0 then 'K'
@@ -57,6 +60,7 @@ with periode_uten_opphort as (
         ,floor(months_between(vedtak.siste_dato_i_perioden, dim_mottaker.fodt_dato)/12) alder_mottaker
         
         ,dim_skyldner.pk_dim_person as fk_dim_person_skyldner
+        ,dim_skyldner.fk_dim_kjonn as skyldner_fk_dim_kjonn
         ,case 
             when dim_skyldner.kjonn_nr = 1 then 'M'
             when dim_skyldner.kjonn_nr = 0 then 'K'
@@ -119,5 +123,99 @@ with periode_uten_opphort as (
 )
 
 select 
-    * 
-from periode_uten_opphort
+p.VEDTAKSTIDSPUNKT
+,p.VEDTAKS_ID
+,p.VALUTAKODE
+,p.UNDERHOLDSKOSTNAD
+,p.STONADSTYPE
+,p.SKYLDNER_FK_DIM_KJONN
+,p.SISTE_KOMPLETT_VEDTAKSTIDSPUNKT
+,p.SISTE_KOMPLETT_VEDTAK
+,p.SAMVAERSKLASSE
+,p.SAMVAERSFRADRAG
+,p.SAKSNR
+,p.RESULTAT_TEKST
+,p.RESULTAT
+,p.P_TYPE_INNTEKT_3
+,p.P_TYPE_INNTEKT_2
+,p.P_TYPE_INNTEKT_1
+,p.P_INNTEKT_3
+,p.P_INNTEKT_2
+,p.P_INNTEKT_1
+,p.P_INNTEKT_TOTAL
+,p.PERIODE_TYPE
+,p.PERIODE_TIL
+,p.PERIODE_FRA_OPPHOR
+,p.PERIODE_FRA
+,p.P_ANTALL_TYPER
+,p.NETTO_TILSYNSUTGIFT
+,p.NETTO_BARNETILLEGG_BP
+,p.NETTO_BARNETILLEGG_BM
+,p.M_TYPE_INNTEKT_5
+,p.M_TYPE_INNTEKT_4
+,p.M_TYPE_INNTEKT_3
+,p.M_TYPE_INNTEKT_2
+,p.M_TYPE_INNTEKT_1
+,p.MOTTAKER_FK_DIM_KJONN
+,p.M_INNTEKT_5
+,p.M_INNTEKT_4
+,p.M_INNTEKT_3
+,p.M_INNTEKT_2
+,p.M_INNTEKT_1
+,p.M_INNTEKT_TOTAL
+,p.MAX_VEDTAKSDATO
+,p.M_ANTALL_TYPER
+,p.KRAVHAVER_FK_DIM_KJONN
+,p.KJONN_SKYLDNER
+,p.KJONN_MOTTAKER
+,p.KJONN_KRAVHAVER
+,p.INNKREVING_FLAGG
+,p.GYLDIG_FLAGG
+,p.GT_VERDI_SKYLDNER
+,p.GT_VERDI_MOTTAKER
+,p.GT_TYPE_SKYLDNER
+,p.GT_TYPE_MOTTAKER
+,p.FORSTE_VEDTAKSTIDSPUNKT
+,p.FK_PERSON1_SKYLDNER
+,p.FK_PERSON1_MOTTAKER
+,p.FK_PERSON1_KRAVHAVER
+,p.FK_DIM_PERSON_SKYLDNER
+,p.FK_DIM_PERSON_MOTTAKER
+,p.FK_DIM_PERSON_KRAVHAVER
+,p.FK_DIM_LAND_STATSBORGERSKAP_SKYLDNER
+,p.FK_DIM_LAND_STATSBORGERSKAP_MOTTAKER
+,p.FK_DIM_GEOGRAFI_BOSTED_SKYLDNER
+,p.FK_DIM_GEOGRAFI_BOSTED_MOTTAKER
+,p.FK_DIM_GEOGRAFI_BOSTED_KRAVHAVER
+,p.FK_BB_FAGSAK
+,p.FK_BB_BIDRAGS_PERIODE
+,p.FAKTISK_TILSYNSUTGIFT
+,p.BPS_ANDEL_UNDERHOLDSKOSTNAD
+,p.BPBOR_MED_ANDRE_VOKSNE
+,p.BOSTED_KOMMUNE_NR_SKYLDNER
+,p.BOSTED_KOMMUNE_NR_MOTTAKER
+,p.BIDRAGSEVNE
+,p.BELOP_VEDTAK
+,p.BELOP
+,p.BEHANDLINGS_TYPE
+,p.ALDER_SKYLDNER
+,p.ALDER_MOTTAKER
+,p.ALDER_KRAVHAVER
+,p.AAR_MAANED
+,p.AAR
+,kravhaver_dim_alder.pk_dim_alder as kravhaver_fk_dim_alder
+,mottaker_dim_alder.pk_dim_alder as mottaker_fk_dim_alder
+,skyldner_dim_alder.pk_dim_alder as skyldner_fk_dim_alder
+,CONCAT(p.aar_maaned, '003') as fk_dim_tid
+,p.lastet_dato
+
+from periode_uten_opphort p
+
+left join {{ source ('kode_verk' , 'dim_alder')}}  kravhaver_dim_alder
+on p.alder_kravhaver = kravhaver_dim_alder.alder
+
+left join {{ source ('kode_verk' , 'dim_alder')}}  mottaker_dim_alder
+on p.alder_mottaker = mottaker_dim_alder.alder
+
+left join {{ source ('kode_verk' , 'dim_alder')}}  skyldner_dim_alder
+on p.alder_mottaker = skyldner_dim_alder.alder

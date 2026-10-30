@@ -188,6 +188,8 @@ periode_uten_opphort as (
           ,dim_kravhaver.bosted_land as bosted_land_kravhaver
           ,dim_kravhaver.gt_verdi as gt_verdi_kravhaver
           ,dim_kravhaver.getitype as getitype_kravhaver
+          ,dim_kravhaver.fk_dim_geografi_bosted as FK_DIM_GEOGRAFI_BOSTED_KRAVHAVER
+          ,dim_kravhaver.fk_dim_kjonn as kravhaver_fk_dim_kjonn
            --Dimensjonsinfo om kravhaver slutter
 
            --Dimensjonsinfo om mottaker starter
@@ -204,6 +206,7 @@ periode_uten_opphort as (
           ,dim_mottaker.getitype as getitype_mottaker
           ,dim_mottaker.fk_dim_land_statsborgerskap as fk_dim_land_statsborgerskap_mottaker
           ,dim_mottaker.fk_dim_geografi_bosted as fk_dim_geografi_bosted_mottaker
+          ,dim_mottaker.fk_dim_kjonn as mottaker_fk_dim_kjonn
           --Dimensjonsinfo om mottaker slutter
 
           ,inntekts_typer.inntekt_total, inntekts_typer.antall_inntekts_typer, inntekts_typer.type_inntekt_1
@@ -234,15 +237,67 @@ periode_uten_opphort as (
 )
 
 select
-    aar_maaned, fk_person1_kravhaver, fk_person1_mottaker, vedtakstidspunkt, fk_bb_fagsak
-   ,vedtaks_id, fk_bb_forskudds_periode, periode_fra, periode_til, belop, periode_fra_opphor
-   ,aar, max_vedtaksdato, fk_dim_tid_mnd, periode_type, fk_dim_person_kravhaver, alder_kravhaver
-   ,fk_dim_person_mottaker, bosted_kommune_nr_mottaker, fk_dim_land_statsborgerskap_mottaker
-   ,fk_dim_geografi_bosted_mottaker, alder_mottaker, inntekt_total, antall_inntekts_typer
-   ,gyldig_flagg, lastet_dato, inntekt_1, inntekt_2, inntekt_3, inntekt_4, saksnr, behandlings_type
-   ,resultat, barnets_alders_gruppe, type_inntekt_1, type_inntekt_2, type_inntekt_3, type_inntekt_4
-   ,kjonn_kravhaver, kjonn_mottaker,antall_barn_i_egen_husstand, sivilstand, BARN_BOR_MED_MOTTAKER as BARN_BOR_MED_BM
-   ,siste_inntekt_vedtakstidspunkt, forste_vedtakstidspunkt, bosted_land_mottaker
-   ,gt_verdi_mottaker, getitype_mottaker, bosted_land_kravhaver, gt_verdi_kravhaver
-   ,getitype_kravhaver, bosted_kommune_nr_kravhaver
-from periode_uten_opphort
+p.aar_maaned,
+p.fk_person1_kravhaver,
+p.fk_person1_mottaker,
+p.vedtakstidspunkt,
+p.fk_bb_fagsak,
+p.vedtaks_id,
+p.fk_bb_forskudds_periode,
+p.periode_fra,
+p.periode_til,
+p.belop,
+p.periode_fra_opphor,
+p.aar,
+p.max_vedtaksdato,
+p.fk_dim_tid_mnd,
+p.periode_type,
+p.fk_dim_person_kravhaver,
+p.alder_kravhaver,
+p.fk_dim_person_mottaker,
+p.bosted_kommune_nr_mottaker,
+p.fk_dim_land_statsborgerskap_mottaker,
+p.fk_dim_geografi_bosted_mottaker,
+p.alder_mottaker,
+p.inntekt_total,
+p.antall_inntekts_typer,
+p.gyldig_flagg,
+p.lastet_dato,
+p.inntekt_1,
+p.inntekt_2,
+p.inntekt_3,
+p.inntekt_4,
+p.saksnr,
+p.behandlings_type,
+p.resultat,
+p.barnets_alders_gruppe,
+p.type_inntekt_1,
+p.type_inntekt_2,
+p.type_inntekt_3,
+p.type_inntekt_4,
+p.kjonn_kravhaver,
+p.kjonn_mottaker,
+p.antall_barn_i_egen_husstand,
+p.sivilstand,
+p.BARN_BOR_MED_MOTTAKER as BARN_BOR_MED_BM,
+p.siste_inntekt_vedtakstidspunkt,
+p.forste_vedtakstidspunkt,
+p.bosted_land_mottaker,
+p.gt_verdi_mottaker,
+p.getitype_mottaker,
+p.bosted_land_kravhaver,
+p.gt_verdi_kravhaver,
+p.getitype_kravhaver,
+p.bosted_kommune_nr_kravhaver,
+p.kravhaver_fk_dim_kjonn,
+p.FK_DIM_GEOGRAFI_BOSTED_KRAVHAVER,
+p.mottaker_fk_dim_kjonn
+,kravhaver_dim_alder.pk_dim_alder as kravhaver_fk_dim_alder
+,mottaker_dim_alder.pk_dim_alder as mottaker_fk_dim_alder
+from periode_uten_opphort  p
+
+left join {{ source ('kode_verk' , 'dim_alder')}}  kravhaver_dim_alder
+on p.alder_kravhaver = kravhaver_dim_alder.alder
+
+left join {{ source ('kode_verk' , 'dim_alder')}}  mottaker_dim_alder
+on p.alder_mottaker = mottaker_dim_alder.alder
