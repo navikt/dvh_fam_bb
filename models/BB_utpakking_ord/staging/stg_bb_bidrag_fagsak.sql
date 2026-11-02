@@ -8,16 +8,16 @@ final as (
     select * from bb_meta_data,
     json_table(melding, '$'
         COLUMNS (
-            vedtaks_id          varchar2(255) path '$.vedtaksid'
-            ,vedtakstidspunkt   timestamp(9)  path '$.vedtakstidspunkt'
-            ,behandlings_type   varchar2(255) path '$.type'
-            ,saksnr             varchar2(255) path '$.saksnr'
-            ,fnr_skyldner       varchar2(255) path '$.skyldner'
-            ,fnr_kravhaver      varchar2(255) path '$.kravhaver'
-            ,fnr_mottaker       varchar2(255) path '$.mottaker'
-            ,historisk_vedtak   varchar2(255) path '$.historiskVedtak'
-            ,innkreving_flagg   varchar2(255) path '$.innkreving'
-            ,stonadstype        varchar2(255) path '$.stønadstype'
+            vedtaks_id          VARCHAR2(255 CHAR) PATH '$.vedtaksid'
+            ,vedtakstidspunkt   timestamp  PATH '$.vedtakstidspunkt'
+            ,behandlings_type   VARCHAR2(255 CHAR) PATH '$.type'
+            ,saksnr             VARCHAR2(255 CHAR) PATH '$.saksnr'
+            ,fnr_skyldner       VARCHAR2(255 CHAR) PATH '$.skyldner'
+            ,fnr_kravhaver      VARCHAR2(255 CHAR) PATH '$.kravhaver'
+            ,fnr_mottaker       VARCHAR2(255 CHAR) PATH '$.mottaker'
+            ,historisk_vedtak   VARCHAR2(255 CHAR) PATH '$.historiskVedtak'
+            ,innkreving_flagg   VARCHAR2(255 CHAR) PATH '$.innkreving'
+            ,stonadstype        VARCHAR2(255 CHAR) PATH '$.stønadstype'
         )
     ) j 
 )

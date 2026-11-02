@@ -18,10 +18,10 @@ select
     ,t1.aar_halvaar_besk
     ,t2.pk_dim_geografi as fk_dim_geografi
     ,t2.navarende_fylke_nr
+    ,t2.navarende_fylke_navn
     ,t2.navarende_fylke_nr_navn
     ,t2.fylke_gruppe_nr
     ,t2.fylke_gruppe_besk
-    ,t2.navarende_fylke_navn
     ,t2.navarende_kommune_nr
     ,t2.navarende_kommune_navn
     ,t2.navarende_kommune_nr_navn

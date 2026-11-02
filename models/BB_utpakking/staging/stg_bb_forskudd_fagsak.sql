@@ -10,7 +10,7 @@ final as (
         ,json_table(melding, '$'
             columns (
                 vedtaks_id       VARCHAR2(255 CHAR) PATH '$.vedtaksid'
-               ,vedtakstidspunkt TIMESTAMP(6)  PATH '$.vedtakstidspunkt'
+               ,vedtakstidspunkt TIMESTAMP  PATH '$.vedtakstidspunkt'
                ,behandlings_type VARCHAR2(255 CHAR) PATH '$.type'
                ,saksnr           VARCHAR2(255 CHAR) PATH '$.saksnr'
                ,fnr_kravhaver    VARCHAR2(255 CHAR) PATH '$.kravhaver'
