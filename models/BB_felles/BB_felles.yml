@@ -76,6 +76,8 @@ models:
       - name: fk_dim_kjonn
       - name: kjonn_kode
       - name: kjonn_flertall_besk
+      - name: navarende_fylke_navn
+
 
 
 
