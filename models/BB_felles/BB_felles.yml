@@ -55,11 +55,17 @@ models:
       - name: statsborgerskap
       - name: bosted_land
       - name: fk_dim_geografi     
+      - name: navarende_fylke_nr
+      - name: navarende_fylke_navn
+      - name: navarende_fylke_nr_navn
       - name: fylke_nr
       - name: fylke_navn
       - name: fylke_nr_navn
       - name: fylke_gruppe_nr
       - name: fylke_gruppe_besk
+      - name: navarende_kommune_nr
+      - name: navarende_kommune_navn
+      - name: navarende_kommune_nr_navn
       - name: kommune_nr
       - name: kommune_navn
       - name: kommune_nr_navn
@@ -70,7 +76,6 @@ models:
       - name: fk_dim_kjonn
       - name: kjonn_kode
       - name: kjonn_flertall_besk
-      - name: navarende_fylke_navn
 
 
 

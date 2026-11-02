@@ -290,11 +290,11 @@ pre_final as (
     ,t2.inntekt_mottaker_antall_typer
     ,t2.inntekt_kravhaver_totalt
     ,t2.inntekt_kravhaver_antall_typer
-    ,{{ dbt_dvh_macros.BREDAGG__ephemeral_star(model_name='dim_person_keys', relation_alias='t3', prefix='SKYLDNER_', except=["fk_person1","gyldig_fra_dato", "gyldig_til_dato" ]) }}
+    ,{{ dbt_dvh_macros.BREDAGG__ephemeral_star(model_name='dim_person_keys', relation_alias='t3', prefix='SKYLDNER_', except=["fk_person1","gyldig_fra_dato", "gyldig_til_dato","navarende_fylke_nr","navarende_fylke_navn","navarende_fylke_nr_navn","navarende_kommune_nr","navarende_kommune_navn","navarende_kommune_nr_navn" ]) }}
     ,trunc(months_between(to_date(aar_maaned, 'yyyymm'), to_date(t6.fodt_aar_maaned, 'yyyymm')) / 12) AS skyldner_alder    
-    ,{{ dbt_dvh_macros.BREDAGG__ephemeral_star(model_name='dim_person_keys', relation_alias='t4', prefix='MOTTAKER_', except=["fk_person1","gyldig_fra_dato", "gyldig_til_dato" ]) }}
+    ,{{ dbt_dvh_macros.BREDAGG__ephemeral_star(model_name='dim_person_keys', relation_alias='t4', prefix='MOTTAKER_', except=["fk_person1","gyldig_fra_dato", "gyldig_til_dato","navarende_fylke_nr","navarende_fylke_navn","navarende_fylke_nr_navn","navarende_kommune_nr","navarende_kommune_navn","navarende_kommune_nr_navn" ]) }}
     ,trunc(months_between(to_date(aar_maaned, 'yyyymm'), to_date(t7.fodt_aar_maaned, 'yyyymm')) / 12) AS mottaker_alder    
-    ,{{ dbt_dvh_macros.BREDAGG__ephemeral_star(model_name='dim_person_keys', relation_alias='t5', prefix='KRAVHAVER_', except=["fk_person1","gyldig_fra_dato", "gyldig_til_dato" ]) }}
+    ,{{ dbt_dvh_macros.BREDAGG__ephemeral_star(model_name='dim_person_keys', relation_alias='t5', prefix='KRAVHAVER_', except=["fk_person1","gyldig_fra_dato", "gyldig_til_dato","navarende_fylke_nr","navarende_fylke_navn","navarende_fylke_nr_navn","navarende_kommune_nr","navarende_kommune_navn","navarende_kommune_nr_navn" ]) }}
     ,trunc(months_between(to_date(aar_maaned, 'yyyymm'), to_date(t8.fodt_aar_maaned, 'yyyymm')) / 12) AS kravhaver_alder
     from siste_dato_i_mnd t1
     left join inntekt t2

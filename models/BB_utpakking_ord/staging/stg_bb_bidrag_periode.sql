@@ -9,24 +9,24 @@ final as (
     from bb_meta_data
         ,json_table(melding, '$'
             columns (
-                vedtaks_id varchar2(255) path '$.vedtaksid',
-                nested path '$.bidragPeriodeListe[*]'
+                vedtaks_id VARCHAR2(255 CHAR) PATH '$.vedtaksid',
+                nested PATH '$.bidragPeriodeListe[*]'
                 columns (
-                    periode_fra                 date path '$.periodeFra'
-                   ,periode_til                 date path '$.periodeTil'
-                   ,belop                       number(18,2)  path '$.beløp'
-                   ,valutakode                  varchar2(255)  path '$.valutakode'                   
-                   ,resultat                    varchar2(255) path '$.resultat'
-                   ,bidragsevne                 number(18,2)  path '$.bidragsevne'
-                   ,underholdskostnad           number(18,2)  path '$.underholdskostnad'
-                   ,samvaersfradrag             number(18,2)  path '$.samværsfradrag'
-                   ,netto_barnetillegg_bp       number(18,2)  path '$.nettoBarnetilleggSkyldner'
-                   ,netto_barnetillegg_bm       number(18,2)  path '$.nettoBarnetilleggMottaker'
-                   ,samvaersklasse              varchar2(255) path '$.samværsklasse'
-                   ,bps_andel_underholdskostnad number(18,2)  path '$.skyldnersAndelUnderholdskostnad'
-                   ,bpbor_med_andre_voksne      varchar2(255) path '$.skyldnerBorMedAndreVoksne'
-                   ,netto_tilsynsutgift         number(18,2)  path '$.nettoTilsynsutgift'
-                   ,faktisk_tilsynsutgift       number(18,2)  path '$.faktiskUtgift'
+                    periode_fra                 DATE PATH '$.periodeFra'
+                   ,periode_til                 DATE PATH '$.periodeTil'
+                   ,belop                       NUMBER  PATH '$.beløp'
+                   ,valutakode                  VARCHAR2(255 CHAR)  PATH '$.valutakode'                   
+                   ,resultat                    VARCHAR2(255 CHAR) PATH '$.resultat'
+                   ,bidragsevne                 NUMBER  PATH '$.bidragsevne'
+                   ,underholdskostnad           NUMBER  PATH '$.underholdskostnad'
+                   ,samvaersfradrag             NUMBER  PATH '$.samværsfradrag'
+                   ,netto_barnetillegg_bp       NUMBER  PATH '$.nettoBarnetilleggSkyldner'
+                   ,netto_barnetillegg_bm       NUMBER  PATH '$.nettoBarnetilleggMottaker'
+                   ,samvaersklasse              VARCHAR2(255 CHAR) PATH '$.samværsklasse'
+                   ,bps_andel_underholdskostnad NUMBER  PATH '$.skyldnersAndelUnderholdskostnad'
+                   ,bpbor_med_andre_voksne      varchar2 PATH '$.skyldnerBorMedAndreVoksne'
+                   ,netto_tilsynsutgift         NUMBER  PATH '$.nettoTilsynsutgift'
+                   ,faktisk_tilsynsutgift       NUMBER  PATH '$.faktiskUtgift'
                 )
             )
         ) j

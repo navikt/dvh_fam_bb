@@ -9,17 +9,17 @@ final as (
     from bb_meta_data
         ,json_table(melding, '$'
             columns (
-                vedtaks_id varchar2(255) path '$.vedtaksid',
-                nested path '$.forskuddPeriodeListe[*]'
+                vedtaks_id VARCHAR2(255 CHAR) PATH '$.vedtaksid',
+                nested PATH '$.forskuddPeriodeListe[*]'
                 columns (
-                    periode_fra                     varchar2(255) path '$.periodeFra'
-                   ,periode_til                     varchar2(255) path '$.periodeTil'
-                   ,belop                           varchar2(255) path '$.beløp'
-                   ,resultat                        varchar2(255) path '$.resultat'
-                   ,barnets_alders_gruppe           varchar2(255) path '$.barnetsAldersgruppe'
-                   ,antall_barn_i_egen_husstand     varchar2(255) path '$.antallBarnIEgenHusstand'
-                   ,sivilstand                      varchar2(255) path '$.sivilstand'
-                   ,barn_bor_med_mottaker           varchar2(255) path '$.barnBorMedMottaker'
+                    periode_fra                     VARCHAR2(255 CHAR) PATH '$.periodeFra'
+                   ,periode_til                     VARCHAR2(255 CHAR) PATH '$.periodeTil'
+                   ,belop                           VARCHAR2(255 CHAR) PATH '$.beløp'
+                   ,resultat                        VARCHAR2(255 CHAR) PATH '$.resultat'
+                   ,barnets_alders_gruppe           VARCHAR2(255 CHAR) PATH '$.barnetsAldersgruppe'
+                   ,antall_barn_i_egen_husstand     VARCHAR2(255 CHAR) PATH '$.antallBarnIEgenHusstand'
+                   ,sivilstand                      VARCHAR2(255 CHAR) PATH '$.sivilstand'
+                   ,barn_bor_med_mottaker           VARCHAR2(255 CHAR) PATH '$.barnBorMedMottaker'
                    ))
         ) j
     where periode_fra is not null

@@ -23,7 +23,7 @@ from bb_meta_data
                 nested path '$.{{ inntekt_liste }}[*]'
                 columns (
                     type_inntekt varchar2(255) path '$.type',
-                    inntekt number(18,2) path '$.beløp',
+                    inntekt number path '$.beløp',
                     inntekt_kategori varchar2(255) path '$.inntektstype',
                     gjelder_kravhaver varchar2(255) path '$.gjelderKravhaver'
                 )

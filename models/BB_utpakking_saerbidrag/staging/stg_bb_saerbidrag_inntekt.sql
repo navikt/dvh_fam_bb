@@ -7,20 +7,20 @@ skyld as (
     from bb_meta_data
         ,json_table(melding, '$'
             columns (
-                saksnr varchar2(255 char) PATH '$.saksnr'
-                ,vedtaks_id  VARCHAR2(255 CHAR) PATH '$.vedtaksid'
-                ,vedtakstidspunkt TIMESTAMP(3) PATH '$.vedtakstidspunkt'
-                ,skyldner varchar2(255 char) PATH '$.skyldner'
-                ,kravhaver varchar2(255 char) PATH '$.kravhaver'
-                ,mottaker varchar2(255 char) PATH '$.mottaker'
-                ,historisk_vedtak varchar2(255 char) PATH '$.historiskVedtak'
+                saksnr              VARCHAR2(255 CHAR)  PATH '$.saksnr'
+                ,vedtaks_id         VARCHAR2(255 CHAR)  PATH '$.vedtaksid'
+                ,vedtakstidspunkt   TIMESTAMP(3)        PATH '$.vedtakstidspunkt'
+                ,skyldner           VARCHAR2(255 CHAR)  PATH '$.skyldner'
+                ,kravhaver          VARCHAR2(255 CHAR)  PATH '$.kravhaver'
+                ,mottaker           VARCHAR2(255 CHAR)  PATH '$.mottaker'
+                ,historisk_vedtak   VARCHAR2(255 CHAR)  PATH '$.historiskVedtak'
 
                 ,nested PATH '$.skyldnerInntektListe[*]'
                     columns(
-                        type_inntekt VARCHAR2(255)   PATH '$.type'
-                        ,gjelder_kravhaver   VARCHAR2(255)   PATH '$.gjelderKravhaver'
-                        ,inntekt_kategori VARCHAR2(255)   PATH '$.inntektstype'
-                        ,inntekt_belop    NUMBER(16,2)    PATH '$.beløp'
+                        type_inntekt            VARCHAR2(255)   PATH '$.type'
+                        ,gjelder_kravhaver      VARCHAR2(255)   PATH '$.gjelderKravhaver'
+                        ,inntekt_kategori       VARCHAR2(255)   PATH '$.inntektstype'
+                        ,inntekt_belop          NUMBER    PATH '$.beløp'
 
                     )
             )
@@ -34,13 +34,13 @@ mott as (
     from bb_meta_data
         ,json_table(melding, '$'
             columns (
-                saksnr varchar2(255 char) PATH '$.saksnr'
+                saksnr VARCHAR2(255 CHAR) PATH '$.saksnr'
                 ,vedtaks_id  VARCHAR2(255 CHAR) PATH '$.vedtaksid'
                 ,vedtakstidspunkt TIMESTAMP(3) PATH '$.vedtakstidspunkt'
-                ,skyldner varchar2(255 char) PATH '$.skyldner'
-                ,kravhaver varchar2(255 char) PATH '$.kravhaver'
-                ,mottaker varchar2(255 char) PATH '$.mottaker'
-                ,historisk_vedtak varchar2(255 char) PATH '$.historiskVedtak'
+                ,skyldner VARCHAR2(255 CHAR) PATH '$.skyldner'
+                ,kravhaver VARCHAR2(255 CHAR) PATH '$.kravhaver'
+                ,mottaker VARCHAR2(255 CHAR) PATH '$.mottaker'
+                ,historisk_vedtak VARCHAR2(255 CHAR) PATH '$.historiskVedtak'
 
                 ,nested PATH '$.mottakerInntektListe[*]'
                     columns(
@@ -61,13 +61,13 @@ krav as (
     from bb_meta_data
         ,json_table(melding, '$'
             columns (
-                saksnr varchar2(255 char) PATH '$.saksnr'
+                saksnr VARCHAR2(255 CHAR) PATH '$.saksnr'
                 ,vedtaks_id  VARCHAR2(255 CHAR) PATH '$.vedtaksid'
                 ,vedtakstidspunkt TIMESTAMP(3) PATH '$.vedtakstidspunkt'
-                ,skyldner varchar2(255 char) PATH '$.skyldner'
-                ,kravhaver varchar2(255 char) PATH '$.kravhaver'
-                ,mottaker varchar2(255 char) PATH '$.mottaker'
-                ,historisk_vedtak varchar2(255 char) PATH '$.historiskVedtak'
+                ,skyldner VARCHAR2(255 CHAR) PATH '$.skyldner'
+                ,kravhaver VARCHAR2(255 CHAR) PATH '$.kravhaver'
+                ,mottaker VARCHAR2(255 CHAR) PATH '$.mottaker'
+                ,historisk_vedtak VARCHAR2(255 CHAR) PATH '$.historiskVedtak'
 
                 ,nested PATH '$.kravhaverInntektListe[*]'
                     columns(
